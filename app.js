@@ -37,10 +37,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware CORS para permitir solicitudes desde cualquier origen
 const corsOptions = {
-    origin: '*',
+    origin: 'https://dogzline-1.onrender.com', // Usa el origen de tu despliegue
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
+
 app.use(cors(corsOptions));
 
 // Configuración de Swagger para documentar la API

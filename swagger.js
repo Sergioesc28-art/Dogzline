@@ -10,7 +10,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:3000/api", // Cambia esto si tu servidor corre en otro puerto o URL
+                url: "https://dogzline-1.onrender.com/api", // Cambia esta URL al dominio correcto
             },
         ],
         components: {
