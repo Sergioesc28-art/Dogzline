@@ -1,0 +1,97 @@
+{
+  "mascotas": [
+      {
+          "id": 1,
+          "nombre": "Tobi",
+          "tipo": "Perro",
+          "raza": "Schnauzer",
+          "edad": 1,
+          "caracteristicas": [
+              "Amigable",
+              "Juguetón",
+              "Imperativo",
+              "Protector"
+          ],
+          "duenoId": 1
+      },
+      {
+          "id": 2,
+          "nombre": "Apolo",
+          "tipo": "Perro",
+          "raza": "Cruza de Husky Siberiano con Malamute de Alaska",
+          "edad": 1,
+          "caracteristicas": [
+              "Curioso",
+              "Juguetón",
+              "Imperactivo"
+          ],
+          "duenoId": 2
+      },
+      {
+          "id": 3,
+          "nombre": "Cheto",
+          "tipo": "Perro",
+          "raza": "Mestizo",
+          "edad": 3,
+          "caracteristicas": [
+              "Juguetón",
+              "Amigable",
+              "Miedoso"
+          ],
+          "duenoId": 2
+      },
+      {
+          "id": 4,
+          "nombre": "Julian",
+          "tipo": "Perro",
+          "raza": "Labrador Retriever",
+          "edad": 1,
+          "caracteristicas": [
+              "Amigable",
+              "Juguetón",
+              "Imperativo",
+              "Protector"
+          ],
+          "duenoId": 1
+      },
+      {
+          "id": 6,
+          "nombre": "Max",
+          "tipo": "Perro",
+          "raza": "Golden Retriever",
+          "edad": 4,
+          "caracteristicas": [
+              "Leal",
+              "Amigable",
+              "Juguetón"
+          ],
+          "duenoId": 4
+      },
+      {
+          "id": 7,
+          "nombre": "Bella",
+          "tipo": "Perro",
+          "raza": "Beagle",
+          "edad": 3,
+          "caracteristicas": [
+              "Curiosa",
+              "Energética",
+              "Amigable"
+          ],
+          "duenoId": 5
+      },
+      {
+          "id": 9,
+          "nombre": "Rocky",
+          "tipo": "Perro",
+          "raza": "Bulldog Francés",
+          "edad": 2,
+          "caracteristicas": [
+              "Cariñoso",
+              "Juguetón",
+              "Protector"
+          ],
+          "duenoId": 6
+      }
+  ]
+}

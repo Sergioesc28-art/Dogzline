@@ -1,0 +1,56 @@
+[
+  {
+      "id": 1,
+      "nombre": "Yoselin Valentina Alamilla Avila",
+      "contacto": "yoselinalamilla3@gmail.com",
+      "contraseña": "Yoselin123",
+      "ubicacion": "Mérida, Yucatán",
+      "telefono": "9991234567",
+      "mascotas": [1]
+  },
+  {
+      "id": 2,
+      "nombre": "Marbella Samantha Terraza Alamilla",
+      "contacto": "Marbellaterraza729@gmail.com",
+      "contraseña": "Marbella456",
+      "ubicacion": "Mérida, Yucatán",
+      "telefono": "9998765432",
+      "mascotas": [2, 3]
+  },
+  {
+      "id": 3,
+      "nombre": "Carlos Alberto Pérez Gómez",
+      "contacto": "carlos.perez@gmail.com",
+      "contraseña": "Carlos789",
+      "ubicacion": "Guadalajara, Jalisco",
+      "telefono": "3312345678",
+      "mascotas": [4]
+  },
+  {
+      "id": 4,
+      "nombre": "Ana María López Hernández",
+      "contacto": "ana.lopez@gmail.com",
+      "contraseña": "Ana123",
+      "ubicacion": "Monterrey, Nuevo León",
+      "telefono": "8187654321",
+      "mascotas": [5, 6]
+  },
+  {
+      "id": 5,
+      "nombre": "Luis Fernando Martínez Ruiz",
+      "contacto": "luis.martinez@gmail.com",
+      "contraseña": "Luis456",
+      "ubicacion": "Ciudad de México, CDMX",
+      "telefono": "5512345678",
+      "mascotas": [7]
+  },
+  {
+      "id": 6,
+      "nombre": "María Fernanda González Torres",
+      "contacto": "maria.gonzalez@gmail.com",
+      "contraseña": "Maria789",
+      "ubicacion": "Puebla, Puebla",
+      "telefono": "2228765432",
+      "mascotas": [8, 9]
+  }
+]
