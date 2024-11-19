@@ -27,7 +27,6 @@ mongoose.connect(mongoURI)
 const app = express();
 
 // Middleware para servir archivos estáticos (frontend)
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware de logging
 app.use(morgan('dev'));
@@ -77,9 +76,7 @@ app.use('/api', (req, res, next) => {
 }, routes);
 
 // Ruta principal para servir el archivo index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
 
 // Agregar favicon vacío para evitar el error 404
 app.get('/favicon.ico', (req, res) => {
