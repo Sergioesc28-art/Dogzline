@@ -3,64 +3,65 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
     text-align: center;
-}
-
-nav {
-    margin-top: 10px;
+    padding: 1rem;
 }
 
 nav a {
-    color: #fff;
+    color: white;
     text-decoration: none;
     margin: 0 15px;
 }
 
 main {
-    padding: 20px;
+    padding: 2rem;
+    text-align: center;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    margin: 0 auto;
+    margin: 2rem auto;
 }
 
 label {
-    margin-bottom: 5px;
-    font-weight: bold;
+    display: block;
+    margin: 1rem 0 0.5rem;
 }
 
 input {
-    padding: 10px;
-    margin-bottom: 15px;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
 button {
-    background-color: #333;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 0.75rem 1.5rem;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #45a049;
 }
 
 footer {
-    background-color: #333;
-    color: white;
     text-align: center;
-    padding: 10px;
+    padding: 1rem;
+    background-color: #ddd;
+    color: #555;
 }
