@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Dogzline API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 8px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .pagination {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Frontend Dogzline API</h1>
+
+    <!-- Login -->
+    <h2>Login</h2>
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Iniciar sesión</button>
+    </form>
+
+    <!-- Crear Usuario -->
+    <h2>Crear Usuario</h2>
+    <form id="create-user-form">
+        <input type="email" id="new-email" placeholder="Email" required />
+        <input type="password" id="new-password" placeholder="Contraseña" required />
+        <input type="text" id="role" placeholder="Role" required />
+        <button type="submit">Crear Usuario</button>
+    </form>
+
+    <!-- Obtener Todos los Usuarios -->
+    <h2>Usuarios</h2>
+    <div class="pagination">
+        <button onclick="loadUsuarios(1)">Página 1</button>
+        <button onclick="loadUsuarios(2)">Página 2</button>
+    </div>
+    <div id="users-list"></div>
+
+    <!-- Obtener Usuario por ID -->
+    <h2>Buscar Usuario por ID</h2>
+    <input type="text" id="user-id" placeholder="ID de Usuario" />
+    <button onclick="getUsuarioById()">Buscar</button>
+    <div id="user-details"></div>
+
+    <!-- Actualizar Usuario -->
+    <h2>Actualizar Usuario</h2>
+    <input type="text" id="update-user-id" placeholder="ID de Usuario" />
+    <input type="email" id="update-email" placeholder="Nuevo Email" />
+    <input type="password" id="update-password" placeholder="Nueva Contraseña" />
+    <button onclick="updateUsuario()">Actualizar Usuario</button>
+
+    <!-- Eliminar Usuario -->
+    <h2>Eliminar Usuario</h2>
+    <input type="text" id="delete-user-id" placeholder="ID de Usuario" />
+    <button onclick="deleteUsuario()">Eliminar Usuario</button>
+
+    <!-- Crear Mascota -->
+    <h2>Crear Mascota</h2>
+    <form id="create-pet-form">
+        <input type="text" id="pet-name" placeholder="Nombre de la Mascota" required />
+        <input type="text" id="pet-age" placeholder="Edad" required />
+        <input type="text" id="pet-breed" placeholder="Raza" required />
+        <input type="text" id="pet-sex" placeholder="Sexo" required />
+        <button type="submit">Crear Mascota</button>
+    </form>
+
+    <!-- Obtener Todas las Mascotas -->
+    <h2>Mascotas</h2>
+    <div class="pagination">
+        <button onclick="loadPets(1)">Página 1</button>
+        <button onclick="loadPets(2)">Página 2</button>
+    </div>
+    <div id="pets-list"></div>
+
+    <!-- Buscar Mascota por ID -->
+    <h2>Buscar Mascota por ID</h2>
+    <input type="text" id="pet-id" placeholder="ID de Mascota" />
+    <button onclick="getPetById()">Buscar</button>
+    <div id="pet-details"></div>
+
+    <!-- Actualizar Mascota -->
+    <h2>Actualizar Mascota</h2>
+    <input type="text" id="update-pet-id" placeholder="ID de Mascota" />
+    <input type="text" id="update-pet-name" placeholder="Nuevo Nombre" />
+    <button onclick="updatePet()">Actualizar Mascota</button>
+
+    <!-- Eliminar Mascota -->
+    <h2>Eliminar Mascota</h2>
+    <input type="text" id="delete-pet-id" placeholder="ID de Mascota" />
+    <button onclick="deletePet()">Eliminar Mascota</button>
+
+    <script src="funcion.js"></script>
+</body>
+</html>

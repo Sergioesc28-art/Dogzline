@@ -24,7 +24,7 @@ const mascotaSchema = new mongoose.Schema({
 
 // Crear los modelos de usuario y mascota
 const Usuario = mongoose.model('Usuario', usuarioSchema);
-const Mascota = mongoose.model('Mascotas', mascotaSchema);
+const Mascota = mongoose.model('Mascotas', mascotaSchema, 'Mascotas');
 
 // Función para obtener todos los usuarios
 const getAllUsuarios = async () => {

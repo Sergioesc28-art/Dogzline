@@ -13,7 +13,7 @@ const swaggerDocs = require('./swagger'); // Importa la configuración de Swagge
 require('dotenv').config();
 
 // Importa el archivo de controladores
-const controllers = require('./controllers/Controllers'); // Asegúrate de importar correctamente
+const controllers = require('./controllers/Controllers');
 
 const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.JWT_SECRET || '_clave_secreta';
@@ -27,6 +27,7 @@ mongoose.connect(mongoURI)
 const app = express();
 
 // Middleware para servir archivos estáticos (frontend)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware de logging
 app.use(morgan('dev'));
@@ -48,7 +49,7 @@ app.use(cors(corsOptions));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Endpoint para inicio de sesión
-app.post('/api/login', controllers.login); // Usamos el controlador login de controllers.js
+app.post('/api/login', controllers.login);
 
 // Middleware para verificar el token
 function verificarToken(req, res, next) {
@@ -76,8 +77,10 @@ app.use('/api', (req, res, next) => {
     verificarToken(req, res, next);
 }, routes);
 
-// Ruta principal para servir el archivo index.html
-
+// Ruta principal para servir el archivo index.html del frontend
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Agregar favicon vacío para evitar el error 404
 app.get('/favicon.ico', (req, res) => {
