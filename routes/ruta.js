@@ -296,4 +296,578 @@ router.put('/mascotas/:id', authenticateToken, controllers.updateMascota);
  */
 router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
 
+// -------- Rutas para Notificaciones --------
+
+// Anotación Swagger para obtener todas las notificaciones
+/**
+ * @swagger
+ * /notificaciones:
+ *   get:
+ *     summary: Obtiene todas las notificaciones
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     responses:
+ *       200:
+ *         description: Lista de notificaciones
+ *         content:
+ *           application/json:
+ *             schema:
+ *               ```javascript
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Notificacion'
+ */
+router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
+
+// Anotación Swagger para obtener una notificación por ID
+/**
+ * @swagger
+ * /notificaciones/{id}:
+ *   get:
+ *     summary: Obtiene una notificación por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la notificación
+ *     responses:
+ *       200:
+ *         description: Notificación encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Notificacion'
+ *       404:
+ *         description: Notificación no encontrada
+ */
+router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
+
+// Anotación Swagger para obtener una notificación por ID
+/**
+ * @swagger
+ * /notificaciones/{id}:
+ *   get:
+ *     summary: Obtiene una notificación por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la notificación
+ *     responses:
+ *       200:
+ *         description: Notificación encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Notificacion'
+ *       404:
+ *         description: Notificación no encontrada
+ */
+router.get('/notificaciones/:id', authenticateToken, controllers.getNotificacionById);
+
+// Anotación Swagger para crear una notificación
+/**
+ * @swagger
+ * /notificaciones:
+ *   post:
+ *     summary: Crea una nueva notificación
+ *     tags: [Notificaciones]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Notificacion'
+ *     responses:
+ *       201:
+ *         description: Notificación creada con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Notificacion'
+ */
+router.post('/notificaciones', authenticateToken, controllers.createNotificacion);
+
+// Anotación Swagger para actualizar una notificación
+/**
+ * @swagger
+ * /notificaciones/{id}:
+ *   put:
+ *     summary: Actualiza una notificación por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la notificación
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Notificacion'
+ *     responses:
+ *       200:
+ *         description: Notificación actualizada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Notificacion'
+ *       404:
+ *         description: Notificación no encontrada
+ */
+router.put('/notificaciones/:id', authenticateToken, controllers.updateNotificacion);
+
+// Anotación Swagger para eliminar una notificación
+/**
+ * @swagger
+ * /notificaciones/{id}:
+ *   delete:
+ *     summary: Elimina una notificación por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la notificación
+ *     responses:
+ *       200:
+ *         description: Notificación eliminada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Notificacion'
+ *       404:
+ *         description: Notificación no encontrada
+ */
+router.delete('/notificaciones/:id', authenticateToken, controllers.deleteNotificacion);
+
+// -------- Rutas para Solicitudes --------
+
+// Anotación Swagger para obtener todas las solicitudes
+/**
+ * @swagger
+ * /solicitudes:
+ *   get:
+ *     summary: Obtiene todas las solicitudes
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Solicitudes]
+ *     responses:
+ *       200:
+ *         description: Lista de solicitudes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Solicitud'
+ */
+router.get('/solicitudes', authenticateToken, controllers.getAllSolicitudes);
+
+// Anotación Swagger para obtener una solicitud por ID
+/**
+ * @swagger
+ * /solicitudes/{id}:
+ *   get:
+ *     summary: Obtiene una solicitud por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Solicitudes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la solicitud
+ *     responses:
+ *       200:
+ *         description: Solicitud encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Solicitud'
+ *       404:
+ *         description: Solicitud no encontrada
+ */
+router.get('/solicitudes/:id', authenticateToken, controllers.getSolicitudById);
+
+
+// Anotación Swagger para crear una solicitud
+/**
+ * @swagger
+ * /solicitudes:
+ *   post:
+ *     summary: Crea una nueva solicitud
+ *     tags: [Solicitudes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Solicitud'
+ *     responses:
+ *       201:
+ *         description: Solicitud creada con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Solicitud'
+ */
+router.post('/solicitudes', authenticateToken, controllers.createSolicitud);
+
+// Anotación Swagger para actualizar una solicitud
+/**
+ * @swagger
+ * /solicitudes/{id}:
+ *   put:
+ *     summary: Actualiza una solicitud por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Solicitudes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la solicitud
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Solicitud'
+ *     responses:
+ *       200:
+ *         description: Solicitud actualizada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Solicitud'
+ *       404:
+ *         description: Solicitud no encontrada
+ */
+router.put('/solicitudes/:id', authenticateToken, controllers.updateSolicitud);
+
+// Anotación Swagger para eliminar una solicitud
+/**
+ * @swagger
+ * /solicitudes/{id}:
+ *   delete:
+ *     summary: Elimina una solicitud por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Solicitudes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único de la solicitud
+ *     responses:
+ *       200:
+ *         description: Solicitud eliminada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Solicitud'
+ *       404:
+ *         description: Solicitud no encontrada
+ */
+router.delete('/solicitudes/:id', authenticateToken, controllers.deleteSolicitud);
+
+// -------- Rutas para Encuentros --------
+
+// Anotación Swagger para obtener todos los encuentros
+/**
+ * @swagger
+ * /encuentros:
+ *   get:
+ *     summary: Obtiene todos los encuentros
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Encuentros]
+ *     responses:
+ *       200:
+ *         description: Lista de encuentros
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Encuentro'
+ */
+router.get('/encuentros', authenticateToken, controllers.getAllEncuentros);
+
+// Anotación Swagger para obtener un encuentro por ID
+/**
+ * @swagger
+ * /encuentros/{id}:
+ *   get:
+ *     summary: Obtiene un encuentro por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Encuentros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del encuentro
+ *     responses:
+ *       200:
+ *         description: Encuentro encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Encuentro'
+ *       404:
+ *         description: Encuentro no encontrado
+ */
+router.get('/encuentros/:id', authenticateToken, controllers.getEncuentroById);
+
+// Anotación Swagger para crear un encuentro
+/**
+ * @swagger
+ * /encuentros:
+ *   post:
+ *     summary: Crea un nuevo encuentro
+ *     tags: [Encuentros]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Encuentro'
+ *     responses:
+ *       201:
+ *         description: Encuentro creado con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Encuentro'
+ */
+router.post('/encuentros', authenticateToken, controllers.createEncuentro);
+
+// Anotación Swagger para actualizar un encuentro
+/**
+ * @swagger
+ * /encuentros/{id}:
+ *   put:
+ *     summary: Actualiza un encuentro por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Encuentros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del encuentro
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Encuentro'
+ *     responses:
+ *       200:
+ *         description: Encuentro actualizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Encuentro'
+ *       404:
+ *         description: Encuentro no encontrado
+ */
+router.put('/encuentros/:id', authenticateToken, controllers.updateEncuentro);
+
+// Anotación Swagger para eliminar un encuentro
+/**
+ * @swagger
+ * /encuentros/{id}:
+ *   delete:
+ *     summary: Elimina un encuentro por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Encuentros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del encuentro
+ *     responses:
+ *       200:
+ *         description: Encuentro eliminado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Encuentro'
+ *       404:
+ *         description: Encuentro no encontrado
+ */
+router.delete('/encuentros/:id', authenticateToken, controllers.deleteEncuentro);
+
+// -------- Rutas para Matchs --------
+
+// Anotación Swagger para obtener todos los matchs
+/**
+ * @swagger
+ * /matchs:
+ *   get:
+ *     summary: Obtiene todos los matchs
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Matchs]
+ *     responses:
+ *       200:
+ *         description: Lista de matchs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Match'
+ */
+router.get('/matchs', authenticateToken, controllers.getAllMatchs);
+
+// Anotación Swagger para obtener un match por ID
+/**
+ * @swagger
+ * /matchs/{id}:
+ *   get:
+ *     summary: Obtiene un match por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Matchs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del match
+ *     responses:
+ *       200:
+ *         description: Match encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Match'
+ *       404:
+ *         description: Match no encontrado
+ */
+router.get('/matchs/:id', authenticateToken, controllers.getMatchById);
+
+// Anotación Swagger para crear un match
+/**
+ * @swagger
+ * /matchs:
+ *   post:
+ *     summary: Crea un nuevo match
+ *     tags: [Matchs]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Match'
+ *     responses:
+ *       201:
+ *         description: Match creado con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Match'
+ */
+router.post('/matchs', authenticateToken, controllers.createMatch);
+
+// Anotación Swagger para eliminar un match
+/**
+ * @swagger
+ * /matchs/{id}:
+ *   delete:
+ *     summary: Elimina un match por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Matchs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del match
+ *     responses:
+ *       200:
+ *         description: Match eliminado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Match'
+ *       404:
+ *         description: Match no encontrado
+ */
+router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
+
+// Anotación Swagger para actualizar un match
+/**
+ * @swagger
+ * /matchs/{id}:
+ *   put:
+ *     summary: Actualiza un match por ID
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Matchs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID único del match
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Match'
+ *     responses:
+ *       200:
+ *         description: Match actualizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Match'
+ *       404:
+ *         description: Match no encontrado
+ */
+router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
+
 module.exports = router;

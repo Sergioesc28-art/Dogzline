@@ -1,5 +1,6 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 
+// Configuración de Swagger
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
@@ -42,6 +43,44 @@ const swaggerOptions = {
                         id_usuario: { type: "string", description: "ID del usuario propietario" },
                     },
                     required: ["_id", "nombre", "edad", "raza", "sexo", "color"],
+                },
+                Notificacion: {
+                    type: "object",
+                    properties: {
+                        id_usuario: { type: "string", description: "ID del usuario que recibe la notificación" },
+                        id_mascota: { type: "string", description: "ID de la mascota relacionada" },
+                        mensaje_llegada: { type: "string", format: "date-time", description: "Fecha y hora de llegada de la notificación" },
+                        contenido: { type: "string", description: "Contenido de la notificación" },
+                        leido: { type: "boolean", description: "Indica si la notificación ha sido leída", default: false },
+                        foto: { type: "string", description: "Foto en formato Base64" },
+                    },
+                    required: ["id_usuario", "id_mascota", "mensaje_llegada", "contenido"],
+                },
+                Solicitud: {
+                    type: "object",
+                    properties: {
+                        id_usuario: { type: "string", description: "ID del usuario que realiza la solicitud" },
+                    },
+                    required: ["id_usuario"],
+                },
+                Encuentro: {
+                    type: "object",
+                    properties: {
+                        id_usuario1: { type: "string", description: "ID del primer usuario" },
+                        id_usuario2: { type: "string", description: "ID del segundo usuario" },
+                        fecha: { type: "string", format: "date-time", description: "Fecha del encuentro" },
+                        lugar: { type: "string", description: "Lugar del encuentro" },
+                    },
+                    required: ["id_usuario1", "id_usuario2", "fecha", "lugar"],
+                },
+                Match: {
+                    type: "object",
+                    properties: {
+                        id_usuario1: { type: "string", description: "ID del primer usuario" },
+                        id_usuario2: { type: "string", description: "ID del segundo usuario" },
+                        fecha: { type: "string", format: "date-time", description: "Fecha del match" },
+                    },
+                    required: ["id_usuario1", "id_usuario2", "fecha"],
                 },
             },
             securitySchemes: {

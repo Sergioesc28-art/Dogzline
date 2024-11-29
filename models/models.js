@@ -22,9 +22,44 @@ const mascotaSchema = new mongoose.Schema({
     id_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true }
 });
 
+// Definir el esquema de Encuentro
+const encuentroSchema = new mongoose.Schema({
+    usuario1_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    usuario2_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    metodos_pago_id: { type: mongoose.Schema.Types.ObjectId, ref: 'MetodoDePago', required: true }
+});
+
+// Definir el esquema de Match
+const matchSchema = new mongoose.Schema({
+    id_usuario1: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    id_usuario2: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    id_encuentro: { type: mongoose.Schema.Types.ObjectId, ref: 'Encuentro', required: true },
+    fecha_match: { type: Date, required: true }
+});
+// Definir el esquema de Notificación
+const notificacionSchema = new mongoose.Schema({
+    id_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    id_mascota: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascota', required: true },
+    mensaje_llegada: { type: Date, required: true },
+    contenido: { type: String, required: true },
+    leido: { type: Boolean, default: false },
+    foto: { type: String } // Base64 encoded string
+});
+// Definir el esquema de Solicitud
+const solicitudSchema = new mongoose.Schema({
+    id_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true }
+});
+
+
 // Crear los modelos de usuario y mascota
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 const Mascota = mongoose.model('Mascotas', mascotaSchema, 'Mascotas');
+const Encuentro = mongoose.model('Encuentro', encuentroSchema);
+const Match = mongoose.model('Match', matchSchema);
+const Notificacion = mongoose.model('Notificacion', notificacionSchema);
+const Solicitud = mongoose.model('Solicitud', solicitudSchema);
+
+
 
 // Función para obtener todos los usuarios
 const getAllUsuarios = async () => {
@@ -42,11 +77,16 @@ const createUsuario = async (usuarioData) => {
     return await nuevoUsuario.save();
 };
 
+
 // Exportar el modelo y las funciones
 module.exports = {
     Usuario,
     Mascota, // Asegúrate de exportar también el modelo Mascotas
     getAllUsuarios,
     findUsuarioByEmail,
-    createUsuario
+    createUsuario,
+    Encuentro,
+    Match,
+    Notificacion,
+    Solicitud
 };
