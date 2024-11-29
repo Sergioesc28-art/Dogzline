@@ -755,7 +755,7 @@ router.delete('/encuentros/:id', authenticateToken, controllers.deleteEncuentro)
  *               items:
  *                 $ref: '#/components/schemas/Match'
  */
-router.get('/matchs', authenticateToken, controllers.getAllMatchs);
+router.get('/matchs', authenticateToken, controllers.getAllMatches);
 
 // Anotación Swagger para obtener un match por ID
 /**
