@@ -54,10 +54,10 @@ const solicitudSchema = new mongoose.Schema({
 // Crear los modelos de usuario y mascota
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 const Mascota = mongoose.model('Mascotas', mascotaSchema, 'Mascotas');
-const Encuentro = mongoose.model('Encuentro', encuentroSchema);
-const Match = mongoose.model('Match', matchSchema);
-const Notificacion = mongoose.model('Notificacion', notificacionSchema);
-const Solicitud = mongoose.model('Solicitud', solicitudSchema);
+const Encuentro = mongoose.model('Encuentro', encuentroSchema, 'Encuentros');
+const Match = mongoose.model('Match', matchSchema,'Match');
+const Notificacion = mongoose.model('Notificacion', notificacionSchema,'Notificaciones');
+const Solicitud = mongoose.model('Solicitud', solicitudSchema, 'Solicitudes');
 
 
 

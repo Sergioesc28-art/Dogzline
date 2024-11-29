@@ -300,6 +300,7 @@ router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
 
 // Anotación Swagger para obtener todas las notificaciones
 /**
+/**
  * @swagger
  * /notificaciones:
  *   get:
@@ -313,7 +314,6 @@ router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
  *         content:
  *           application/json:
  *             schema:
- *               ```javascript
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Notificacion'
