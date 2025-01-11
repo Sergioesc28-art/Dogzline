@@ -86,22 +86,19 @@ exports.createUsuario = async (req, res) => {
             return res.status(400).json({ message: 'Todos los campos (email, contraseña, role) son requeridos' });
         }
 
-        // Encripta la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-
-        // Crea el nuevo usuario
-        const newUser = new Usuario({
+        // Crea el nuevo usuario sin encriptar la contraseña
+        const newUser  = new Usuario({
             email,
-            contraseña: hashedPassword,
+            contraseña, // Aquí se guarda la contraseña sin encriptar
             role,
         });
 
         // Guarda el usuario en la base de datos
-        await newUser.save();
+        await newUser .save();
 
-        res.status(201).json(newUser);
+        res.status(201).json(newUser );
     } catch (error) {
-        console.error('Error al crear el usuario:', error); 
+        console.error('Error al crear el usuario:', error);
         res.status(500).json({ message: 'Error al crear el usuario', error: error.message });
     }
 };
