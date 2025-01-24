@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { Usuario, Mascota,Encuentro, Match,Notificacion, Solicitud } = require('../models/models.js'); // Asegúrate de importar tus modelos de Mongoose
@@ -7,7 +7,7 @@ const { Usuario, Mascota,Encuentro, Match,Notificacion, Solicitud } = require('.
 exports.login = async (req, res) => {
     const { email, contraseña } = req.body;
     
-    console.log('Datos recibidos:', req.body);  // Ver datos recibidos por el servidor
+    console.log('Datos recibidos:', req.body);
 
     try {
         if (!email || !contraseña) {
@@ -21,11 +21,9 @@ exports.login = async (req, res) => {
             return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
         }
 
-        // Comparar las contraseñas
-        const isMatch = await bcrypt.compare(contraseña, usuario.contraseña);
-        console.log('Contraseña coincidente:', isMatch); // Verificar si las contraseñas coinciden
-        if (!isMatch) {
-            return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
+        // Comparar las contraseñas directamente
+        if (contraseña !== usuario.contraseña) {
+            return res.status(401).json({ mensaje: 'Usuario o contraseña no se encuentra' });
         }
 
         // Generar el token JWT
@@ -35,7 +33,7 @@ exports.login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        console.log('Token generado:', token); // Verificar que el token se genera correctamente
+        console.log('Token generado:', token);
 
         return res.json({ token });
     } catch (error) {
