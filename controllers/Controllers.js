@@ -126,6 +126,27 @@ exports.deleteUsuario = async (req, res) => {
 };
 
 // -------- CRUD para Mascotas --------
+// Obtener todas las mascotas del usuario con paginación
+exports.getAllMascotasByUser = async (req, res) => {
+    try {
+        const userId = req.user.id; // Asegúrate de que el ID del usuario esté disponible en req.user
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const mascotas = await Mascota.find({ id_usuario: userId }).skip(skip).limit(limit);
+        const totalMascotas = await Mascota.countDocuments({ id_usuario: userId });
+
+        res.json({
+            total: totalMascotas,
+            page,
+            pages: Math.ceil(totalMascotas / limit),
+            mascotas
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener las mascotas', error });
+    }
+};
 // Obtener todas las mascotas con paginación
 exports.getAllMascotas = async (req, res) => {
     try {

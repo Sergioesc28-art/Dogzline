@@ -157,6 +157,10 @@ router.delete('/usuarios/:id', authenticateToken, controllers.deleteUsuario);
 
 // -------- Rutas para Mascotas --------
 
+// Nueva ruta para obtener las mascotas del usuario
+router.get('/mascotas/usuario', authenticateToken, controllers.getAllMascotasByUser);
+
+
 // Anotación Swagger para obtener todas las mascotas con paginación
 /**
  * @swagger
