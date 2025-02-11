@@ -334,7 +334,17 @@ exports.deleteMatch = async (req, res) => {
     }
 };
 
-//CRUD MASCOTAS
+//CRUD NOTIFIICACIONES
+
+exports.getNotificacionesByUser = async (req, res) => {
+    try {
+        const userId = req.user.id; // Asegúrate de que el ID del usuario esté disponible en req.user
+        const notificaciones = await Notificacion.find({ id_usuario: userId });
+        res.json(notificaciones);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener las notificaciones del usuario', error });
+    }
+};
 exports.getAllNotificaciones = async (req, res) => {
     try {
         const notificaciones = await Notificacion.find();

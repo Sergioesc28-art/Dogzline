@@ -324,6 +324,8 @@ router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
  */
 router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
 
+router.get('/notificaciones/usuario', authenticateToken, controllers.getNotificacionesByUser);
+
 // Anotación Swagger para obtener una notificación por ID
 /**
  * @swagger
