@@ -339,13 +339,21 @@ exports.deleteMatch = async (req, res) => {
 exports.getNotificacionesByUser = async (req, res) => {
     try {
         const userId = req.user.id;
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({ message: 'ID de usuario inválido' });
+        const notificaciones = await Notificacion.find({ id_usuario: userId })
+            .populate('id_mascota', 'nombre')
+            .sort({ mensaje_llegada: -1 });
+            
+        if (!notificaciones) {
+            return res.status(404).json({ message: 'No se encontraron notificaciones para este usuario' });
         }
-        const notificaciones = await Notificacion.find({ id_usuario: userId });
+        
         res.json(notificaciones);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener las notificaciones del usuario', error: error.message });
+        console.error('Error al obtener notificaciones:', error);
+        res.status(500).json({ 
+            message: 'Error al obtener las notificaciones del usuario', 
+            error: error.message 
+        });
     }
 };
 exports.getAllNotificaciones = async (req, res) => {
