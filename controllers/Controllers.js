@@ -338,14 +338,15 @@ exports.deleteMatch = async (req, res) => {
 //CRUD NOTIFIICACIONES
 exports.getNotificacionesByUser = async (req, res) => {
     try {
-        const userId = req.user.id; // Obtiene el ID del usuario del token decodificado
-        
-        console.log('User ID:', userId); // Para debug
+        console.log('Headers recibidos:', req.headers); // Debug headers
+        console.log('Token recibido:', req.headers.authorization); // Debug token
+        console.log('Usuario en request:', req.user); // Debug user info
 
+        const userId = req.user.id;
+        
         if (!userId) {
             return res.status(400).json({ 
-                message: 'Usuario no autenticado',
-                error: 'No user ID found in token'
+                message: 'Usuario no autenticado'
             });
         }
 
@@ -353,11 +354,11 @@ exports.getNotificacionesByUser = async (req, res) => {
             .populate('id_mascota', 'nombre')
             .sort({ mensaje_llegada: -1 });
 
-        console.log('Notificaciones encontradas:', notificaciones); // Para debug
-
+        console.log('Notificaciones encontradas:', notificaciones);
+        
         res.json(notificaciones);
     } catch (error) {
-        console.error('Error al obtener notificaciones:', error);
+        console.error('Error completo:', error);
         res.status(500).json({ 
             message: 'Error al obtener las notificaciones del usuario',
             error: error.message 
