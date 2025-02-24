@@ -338,17 +338,25 @@ exports.deleteMatch = async (req, res) => {
 //CRUD NOTIFIICACIONES
 exports.getNotificacionesByUser = async (req, res) => {
     try {
-        console.log('Headers recibidos:', req.headers); // Debug headers
-        console.log('Token recibido:', req.headers.authorization); // Debug token
-        console.log('Usuario en request:', req.user); // Debug user info
-
-        const userId = req.user.id;
+        // Log de información inicial
+        console.log('=== Inicio de getNotificacionesByUser ===');
+        console.log('Token recibido:', req.headers.authorization);
+        console.log('Usuario decodificado:', req.user);
         
-        if (!userId) {
+        const userId = req.user.id;
+        console.log('ID de usuario extraído:', userId);
+
+        // Validación del userId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            console.log('ID de usuario inválido');
             return res.status(400).json({ 
-                message: 'Usuario no autenticado'
+                message: 'ID de usuario inválido',
+                error: 'Invalid ObjectId format'
             });
         }
+
+        // Log antes de la consulta
+        console.log('Intentando buscar notificaciones para userId:', userId);
 
         const notificaciones = await Notificacion.find({ id_usuario: userId })
             .populate('id_mascota', 'nombre')
@@ -356,12 +364,27 @@ exports.getNotificacionesByUser = async (req, res) => {
 
         console.log('Notificaciones encontradas:', notificaciones);
         
+        if (!notificaciones) {
+            console.log('No se encontraron notificaciones');
+            return res.status(404).json({ 
+                message: 'No se encontraron notificaciones'
+            });
+        }
+
+        // Log antes de enviar respuesta
+        console.log('Enviando respuesta exitosa');
         res.json(notificaciones);
+
     } catch (error) {
+        // Log detallado del error
+        console.error('=== Error en getNotificacionesByUser ===');
         console.error('Error completo:', error);
+        console.error('Stack trace:', error.stack);
+        
         res.status(500).json({ 
             message: 'Error al obtener las notificaciones del usuario',
-            error: error.message 
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 };
