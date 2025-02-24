@@ -138,8 +138,7 @@
               "RelativeToolTip": "models\\models.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-20T03:05:38.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-20T03:05:38.236Z"
             },
             {
               "$type": "Document",
@@ -161,7 +160,7 @@
               "RelativeDocumentMoniker": "controllers\\Controllers.js",
               "ToolTip": "C:\\Users\\sergi\\OneDrive\\Documentos\\Dogzline\\controllers\\Controllers.js",
               "RelativeToolTip": "controllers\\Controllers.js",
-              "ViewState": "AgIAADkAAAAAAAAAAAAQwGUAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAowLkAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-01-20T03:05:49.733Z",
               "EditorCaption": ""
@@ -189,10 +188,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-01-20T03:06:02.404Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             }
           ]
         }

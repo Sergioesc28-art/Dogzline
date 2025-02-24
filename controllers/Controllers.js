@@ -92,7 +92,7 @@ exports.createUsuario = async (req, res) => {
         });
 
         // Guarda el usuario en la base de datos
-        await newUser .save();
+        await Usuario.create(newUser);
 
         res.status(201).json(newUser );
     } catch (error) {
@@ -338,11 +338,14 @@ exports.deleteMatch = async (req, res) => {
 
 exports.getNotificacionesByUser = async (req, res) => {
     try {
-        const userId = req.user.id; // Asegúrate de que el ID del usuario esté disponible en req.user
+        const userId = req.user.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'ID de usuario inválido' });
+        }
         const notificaciones = await Notificacion.find({ id_usuario: userId });
         res.json(notificaciones);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener las notificaciones del usuario', error });
+        res.status(500).json({ message: 'Error al obtener las notificaciones del usuario', error: error.message });
     }
 };
 exports.getAllNotificaciones = async (req, res) => {
