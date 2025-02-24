@@ -338,10 +338,10 @@ exports.deleteMatch = async (req, res) => {
 //CRUD NOTIFIICACIONES
 exports.getNotificacionesByUser = async (req, res) => {
     try {
-        // Obtener el ID del usuario del token (que viene en req.user.id)
-        const userId = req.user.id;
+        const userId = req.user.id; // Obtiene el ID del usuario del token decodificado
         
-        // Validar que userId exista
+        console.log('User ID:', userId); // Para debug
+
         if (!userId) {
             return res.status(400).json({ 
                 message: 'Usuario no autenticado',
@@ -349,17 +349,11 @@ exports.getNotificacionesByUser = async (req, res) => {
             });
         }
 
-        // Validar formato del ID
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({ 
-                message: 'ID de usuario inválido',
-                error: 'Invalid ObjectId format'
-            });
-        }
-
         const notificaciones = await Notificacion.find({ id_usuario: userId })
             .populate('id_mascota', 'nombre')
             .sort({ mensaje_llegada: -1 });
+
+        console.log('Notificaciones encontradas:', notificaciones); // Para debug
 
         res.json(notificaciones);
     } catch (error) {
