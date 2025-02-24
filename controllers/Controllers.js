@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { Usuario, Mascota,Encuentro, Match,Notificacion, Solicitud } = require('../models/models.js'); // Asegúrate de importar tus modelos de Mongoose
+const mongoose = require('mongoose');
 
 // Login
 exports.login = async (req, res) => {
@@ -335,11 +336,17 @@ exports.deleteMatch = async (req, res) => {
 };
 
 //CRUD NOTIFIICACIONES
-
 exports.getNotificacionesByUser = async (req, res) => {
     try {
         const userId = req.user.id;
         
+        // Validar que userId exista
+        if (!userId) {
+            return res.status(400).json({ 
+                message: 'ID de usuario no proporcionado',
+                error: 'Missing userId'
+            });
+        }
         // Validar que el ID sea válido antes de hacer la consulta
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ 
