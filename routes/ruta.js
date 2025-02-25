@@ -302,6 +302,29 @@ router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
 
 // -------- Rutas para Notificaciones --------
 
+// Anotación Swagger para obtener notificaciones por usuario
+/**
+ * @swagger
+ * /notificaciones/usuario:
+ *   get:
+ *     summary: Obtiene las notificaciones del usuario autenticado
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Notificaciones]
+ *     responses:
+ *       200:
+ *         description: Lista de notificaciones del usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Notificacion'
+ *       500:
+ *         description: Error al obtener las notificaciones del usuario
+ */
+router.get('/notificaciones/:userId', authenticateToken, controllers.getNotificacionesByUser);
+
 // Anotación Swagger para obtener todas las notificaciones
 /**
 /**
@@ -466,28 +489,6 @@ router.put('/notificaciones/:id', authenticateToken, controllers.updateNotificac
  */
 router.delete('/notificaciones/:id', authenticateToken, controllers.deleteNotificacion);
 
-// Anotación Swagger para obtener notificaciones por usuario
-/**
- * @swagger
- * /notificaciones/usuario:
- *   get:
- *     summary: Obtiene las notificaciones del usuario autenticado
- *     security:
- *       - BearerAuth: []
- *     tags: [Notificaciones]
- *     responses:
- *       200:
- *         description: Lista de notificaciones del usuario
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Notificacion'
- *       500:
- *         description: Error al obtener las notificaciones del usuario
- */
-router.get('/notificaciones/:userId', authenticateToken, controllers.getNotificacionesByUser);
 
 // -------- Rutas para Solicitudes --------
 
