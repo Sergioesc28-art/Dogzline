@@ -302,79 +302,18 @@ router.delete('/mascotas/:id', authenticateToken, controllers.deleteMascota);
 
 // -------- Rutas para Notificaciones --------
 
-// Anotación Swagger para obtener notificaciones por usuario
 /**
  * @swagger
- * /notificaciones/usuario:
+ * /notificaciones/usuario/{userId}:
  *   get:
- *     summary: Obtiene las notificaciones del usuario autenticado
- *     security:
- *       - BearerAuth: []
- *     tags: [Notificaciones]
- *     responses:
- *       200:
- *         description: Lista de notificaciones del usuario
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Notificacion'
- *       500:
- *         description: Error al obtener las notificaciones del usuario
- */
-router.get('/notificaciones/:userId', authenticateToken, controllers.getNotificacionesByUser);
-
-// Anotación Swagger para obtener todas las notificaciones
-/**
-/**
- * @swagger
- * /notificaciones:
- *   get:
- *     summary: Obtiene todas las notificaciones
- *     security:
- *       - BearerAuth: []
- *     tags: [Notificaciones]
- *     responses:
- *       200:
- *         description: Lista de notificaciones
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Notificacion'
- */
-router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
-
-
-// Anotación Swagger para obtener una notificación por ID
-/**
- * @swagger
- * /notificaciones/{id}:
- *   get:
- *     summary: Obtiene una notificación por ID
- *     security:
- *       - BearerAuth: []
- *     tags: [Notificaciones]
+ *     summary: Obtiene las notificaciones del usuario
  *     parameters:
  *       - in: path
- *         name: id
- *         schema:
- *           type: string
+ *         name: userId
  *         required: true
- *         description: ID único de la notificación
- *     responses:
- *       200:
- *         description: Notificación encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Notificacion'
- *       404:
- *         description: Notificación no encontrada
+ *         description: ID del usuario
  */
-router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
+router.get('/notificaciones/usuario/:userId', authenticateToken, controllers.getNotificacionesByUser);
 
 // Anotación Swagger para obtener una notificación por ID
 /**
@@ -403,6 +342,8 @@ router.get('/notificaciones', authenticateToken, controllers.getAllNotificacione
  *         description: Notificación no encontrada
  */
 router.get('/notificaciones/:id', authenticateToken, controllers.getNotificacionById);
+
+router.get('/notificaciones', authenticateToken, controllers.getAllNotificaciones);
 
 // Anotación Swagger para crear una notificación
 /**
