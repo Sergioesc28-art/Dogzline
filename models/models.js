@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Definir el esquema de usuario
 const usuarioSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    contraseña: { type: String, required: true },
+    contrasena: { type: String, required: true },
     role: { type: String, required: true }
 });
 
