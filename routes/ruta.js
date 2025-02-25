@@ -487,7 +487,7 @@ router.delete('/notificaciones/:id', authenticateToken, controllers.deleteNotifi
  *       500:
  *         description: Error al obtener las notificaciones del usuario
  */
-router.get('/api/notificaciones/usuario', authenticateToken, controllers.getNotificacionesByUser);
+router.get('/notificaciones/:userId', authenticateToken, controllers.getNotificacionesByUser);
 
 // -------- Rutas para Solicitudes --------
 

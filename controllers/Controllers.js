@@ -337,13 +337,14 @@ exports.deleteMatch = async (req, res) => {
 
 //CRUD NOTIFIICACIONES
 //CRUD NOTIFIICACIONES
+//CRUD NOTIFIICACIONES
 exports.getNotificacionesByUser = async (req, res) => {
     try {
         console.log('=== Inicio de getNotificacionesByUser ===');
         console.log('Token recibido:', req.headers.authorization);
         console.log('Usuario decodificado:', req.user);
 
-        const userId = req.user.id;
+        const userId = req.params.userId; // Obtener userId de los parámetros de la URL
         console.log('ID de usuario extraído:', userId);
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
