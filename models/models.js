@@ -39,7 +39,7 @@ const matchSchema = new mongoose.Schema({
 // Definir el esquema de Notificación
 const notificacionSchema = new mongoose.Schema({
     id_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
-    id_mascota: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascota', required: true },
+    id_mascota: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
     mensaje_llegada: { type: Date, required: true },
     contenido: { type: String, required: true },
     leido: { type: Boolean, default: false },
