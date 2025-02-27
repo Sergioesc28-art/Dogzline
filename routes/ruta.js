@@ -572,7 +572,7 @@ router.delete('/solicitudes/:id', authenticateToken, controllers.deleteSolicitud
 
 router.post('/api/likes', authenticateToken, controllers.darLike);
 
-router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getMascotaLikes);
+router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getLikesDeMascota);
 
 // Anotación Swagger para obtener todos los encuentros
 /**
