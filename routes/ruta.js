@@ -710,6 +710,8 @@ router.delete('/encuentros/:id', authenticateToken, controllers.deleteEncuentro)
 
 // -------- Rutas para Matchs --------
 
+router.get('/api/matchs/:idUsuario', authenticateToken, controllers.getMatchsByUser);
+
 // Anotación Swagger para obtener todos los matchs
 /**
  * @swagger

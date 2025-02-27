@@ -314,6 +314,23 @@ exports.deleteEncuentro = async (req, res) => {
 };
 
 // -------- CRUD para Matches --------
+// Obtener los matches de un usuario
+exports.getMatchesByUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;  // El ID del usuario se pasa en la URL
+
+        const matches = await Match.find({
+            $or: [{ id_usuario1: userId }, { id_usuario2: userId }]
+        })
+        .populate('id_usuario1', 'nombre')  
+        .populate('id_usuario2', 'nombre');
+
+        res.status(200).json(matches);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los matches', error });
+    }
+};
+
 exports.getAllMatches = async (req, res) => {
     try {
         const matches = await Match.find();
