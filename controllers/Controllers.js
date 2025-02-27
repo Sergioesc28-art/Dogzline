@@ -338,6 +338,7 @@ exports.deleteMatch = async (req, res) => {
 //CRUD NOTIFIICACIONES
 
 exports.getNotificacionesByUser = async (req, res) => {
+    
     const userId = req.params.userId; // Obtener userId de los parámetros de la URL
     console.log('ID de usuario extraído:', userId);
     try {
@@ -360,8 +361,8 @@ exports.getNotificacionesByUser = async (req, res) => {
 
         try {
             const notificaciones = await Notificacion.find({ id_usuario: userId })
-                .populate('id_mascota', 'nombre')
-                .sort({ mensaje_llegada: -1 });
+    .populate('id_mascota', 'nombre edad raza color fotos') // Incluye más campos necesarios
+    .sort({ mensaje_llegada: -1 });
 
             console.log('Notificaciones encontradas:', notificaciones);
 
