@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign(
             { id: usuario._id, role: usuario.role },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '4h' }
         );
 
         console.log('Token generado:', token);
@@ -68,13 +68,24 @@ exports.getAllUsuarios = async (req, res) => {
 
 exports.getUsuarioById = async (req, res) => {
     try {
-        const user = await Usuario.findById(req.params.id); // Encuentra un usuario por ID
-        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
-        res.json(user);
+        const user = await Usuario.findById(req.params.id).select('-contraseña'); // Excluir contraseña
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Buscar las mascotas asociadas a este usuario
+        const mascotas = await Mascota.find({ id_usuario: req.params.id });
+
+        res.json({
+            usuario: user,
+            mascotas: mascotas
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener el usuario', error });
     }
 };
+
 
 exports.createUsuario = async (req, res) => {
     try {
@@ -563,5 +574,41 @@ exports.deleteSolicitud = async (req, res) => {
         res.json({ message: 'Solicitud eliminada' });
     } catch (error) {
         res.status(500).json({ message: 'Error al eliminar la solicitud', error });
+    }
+};
+
+
+exports.listarUsuarios = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const search = req.query.search || '';
+
+        // Filtro de búsqueda en NombreCompleto, email y role
+        const query = {
+            $or: [
+                { NombreCompleto: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } },
+                { role: { $regex: search, $options: 'i' } }
+            ]
+        };
+
+        // Obtener usuarios paginados y sin contraseña
+        const users = await Usuario.find(query)
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .select('-contraseña'); // Excluir contraseña por seguridad
+
+        // Contar usuarios filtrados
+        const totalUsers = await Usuario.countDocuments(query);
+
+        res.json({
+            total: totalUsers,
+            page,
+            pages: Math.ceil(totalUsers / limit),
+            users
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los usuarios', error });
     }
 };

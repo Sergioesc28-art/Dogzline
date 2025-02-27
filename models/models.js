@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 
 // Definir el esquema de usuario
 const usuarioSchema = new mongoose.Schema({
+    NombreCompleto: { type: String, required: true }, // Agregado
     email: { type: String, required: true, unique: true },
     contraseña: { type: String, required: true },
     role: { type: String, required: true }
 });
+
 
 // Definir el esquema de mascota
 const mascotaSchema = new mongoose.Schema({

@@ -18,6 +18,7 @@ const controllers = require('./controllers/Controllers');
 const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.JWT_SECRET || '_clave_secreta';
 
+
 // Conexión a MongoDB
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI)
@@ -38,7 +39,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware CORS para permitir solicitudes desde cualquier origen
 const corsOptions = {
-    origin: 'https://dogzline-1.onrender.com', // Usa el origen de tu despliegue
+    origin: [
+        'http://localhost:5173', // Permitir localhost para desarrollo (Vite)
+        'https://dogzline-1.onrender.com' // Permitir frontend en producción
+    ], // Usa el origen de tu despliegue
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -70,12 +74,8 @@ function verificarToken(req, res, next) {
 }
 
 // Aplicar middleware de token a las rutas de /api, excluyendo login y creación de usuarios
-app.use('/api', (req, res, next) => {
-    if (req.path === '/login' || (req.method === 'POST' && req.path === '/usuarios')) {
-        return next();
-    }
-    verificarToken(req, res, next);
-}, routes);
+app.use('/api', routes);
+
 
 // Ruta principal para servir el archivo index.html del frontend
 app.get('*', (req, res) => {
