@@ -570,7 +570,7 @@ router.delete('/solicitudes/:id', authenticateToken, controllers.deleteSolicitud
 
 // -------- Rutas para Encuentros --------
 
-router.post('/api/likes', authenticateToken, controllers.createLike);
+router.post('/api/likes', authenticateToken, controllers.darLike);
 
 router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getMascotaLikes);
 
