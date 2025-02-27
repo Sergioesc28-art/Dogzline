@@ -570,6 +570,10 @@ router.delete('/solicitudes/:id', authenticateToken, controllers.deleteSolicitud
 
 // -------- Rutas para Encuentros --------
 
+router.post('/api/likes', authenticateToken, controllers.createLike);
+
+router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getMascotaLikes);
+
 // Anotación Swagger para obtener todos los encuentros
 /**
  * @swagger

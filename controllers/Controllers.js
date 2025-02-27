@@ -218,6 +218,43 @@ exports.deleteMascota = async (req, res) => {
 };
 
 // -------- CRUD para Encuentros --------
+// Dar like a una mascota
+exports.darLike = async (req, res) => {
+    try {
+      const { idMascotaLiked } = req.body; // ID de la mascota que recibe el like
+      const idUsuarioWhoLiked = req.user.id; // ID del usuario actual
+  
+      if (!idMascotaLiked) {
+        return res.status(400).json({ message: 'Se requiere el ID de la mascota.' });
+      }
+  
+      // Crea un encuentro o notificación de tipo "like"
+      const nuevoEncuentro = new Encuentro({
+        idMascotaLiked,
+        idUsuarioWhoLiked,
+      });
+  
+      await nuevoEncuentro.save(); // Guarda en la base de datos
+      res.status(201).json({ message: 'Like registrado exitosamente', encuentro: nuevoEncuentro });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al registrar el like', error });
+    }
+  };
+
+// Obtener los likes de una mascota
+  exports.getLikesDeMascota = async (req, res) => {
+    const { idMascota } = req.params;
+  
+    try {
+      const likes = await Encuentro.find({ idMascotaLiked: idMascota })
+        .populate('idUsuarioWhoLiked', 'email') // Trae detalles del usuario que dio like
+        .populate('idMascotaLiked', 'nombre raza fotos'); // Trae detalles de la mascota
+  
+      res.status(200).json({ likes });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener los likes', error });
+    }
+  };
 exports.getAllEncuentros = async (req, res) => {
     try {
         const encuentros = await Encuentro.find();
