@@ -191,14 +191,17 @@ exports.getMascotaById = async (req, res) => {
     }
 };
 
-// Crear una nueva mascota
-exports.createMascota = async (req, res) => {
+exports.createNotificacion = async (req, res) => {
     try {
-        const newMascota = new Mascota(req.body);
-        await newMascota.save();
-        res.status(201).json(newMascota);
+        console.log("📩 Datos recibidos en el servidor:", req.body);
+
+        const nuevaNotificacion = new Notificacion(req.body);
+        await nuevaNotificacion.save();
+        
+        res.status(201).json(nuevaNotificacion);
     } catch (error) {
-        res.status(500).json({ message: 'Error al crear la mascota', error });
+        console.error("❌ Error al crear la notificación:", error);
+        res.status(500).json({ message: "Error al crear la notificación", error });
     }
 };
 
