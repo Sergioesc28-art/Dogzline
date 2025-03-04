@@ -4,7 +4,6 @@ const controllers = require('../controllers/Controllers');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 
 // Ruta para el inicio de sesión
-
 router.get('/usuarios/listar', authenticateToken, controllers.listarUsuarios);
 
 router.post('/login', controllers.login);
@@ -162,8 +161,6 @@ router.delete('/usuarios/:id', authenticateToken, controllers.deleteUsuario);
 
 // Nueva ruta para obtener las mascotas del usuario
 router.get('/mascotas/usuario', authenticateToken, controllers.getAllMascotasByUser);
-
-
 // Anotación Swagger para obtener todas las mascotas con paginación
 /**
  * @swagger
@@ -570,13 +567,7 @@ router.put('/solicitudes/:id', authenticateToken, controllers.updateSolicitud);
  *         description: Solicitud no encontrada
  */
 router.delete('/solicitudes/:id', authenticateToken, controllers.deleteSolicitud);
-
 // -------- Rutas para Encuentros --------
-
-router.post('/api/likes', authenticateToken, controllers.darLike);
-
-router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getLikesDeMascota);
-
 // Anotación Swagger para obtener todos los encuentros
 /**
  * @swagger
@@ -597,7 +588,6 @@ router.get('/api/mascotas/:idMascota/likes', authenticateToken, controllers.getL
  *                 $ref: '#/components/schemas/Encuentro'
  */
 router.get('/encuentros', authenticateToken, controllers.getAllEncuentros);
-
 // Anotación Swagger para obtener un encuentro por ID
 /**
  * @swagger
@@ -625,7 +615,6 @@ router.get('/encuentros', authenticateToken, controllers.getAllEncuentros);
  *         description: Encuentro no encontrado
  */
 router.get('/encuentros/:id', authenticateToken, controllers.getEncuentroById);
-
 // Anotación Swagger para crear un encuentro
 /**
  * @swagger
@@ -648,7 +637,6 @@ router.get('/encuentros/:id', authenticateToken, controllers.getEncuentroById);
  *               $ref: '#/components/schemas/Encuentro'
  */
 router.post('/encuentros', authenticateToken, controllers.createEncuentro);
-
 // Anotación Swagger para actualizar un encuentro
 /**
  * @swagger
@@ -682,7 +670,6 @@ router.post('/encuentros', authenticateToken, controllers.createEncuentro);
  *         description: Encuentro no encontrado
  */
 router.put('/encuentros/:id', authenticateToken, controllers.updateEncuentro);
-
 // Anotación Swagger para eliminar un encuentro
 /**
  * @swagger
@@ -710,11 +697,8 @@ router.put('/encuentros/:id', authenticateToken, controllers.updateEncuentro);
  *         description: Encuentro no encontrado
  */
 router.delete('/encuentros/:id', authenticateToken, controllers.deleteEncuentro);
-
 // -------- Rutas para Matchs --------
-
 router.get('/api/matches/:userId', authenticateToken, controllers.getMatchesByUser);
-
 // Anotación Swagger para obtener todos los matchs
 /**
  * @swagger
@@ -735,7 +719,6 @@ router.get('/api/matches/:userId', authenticateToken, controllers.getMatchesByUs
  *                 $ref: '#/components/schemas/Match'
  */
 router.get('/matchs', authenticateToken, controllers.getAllMatches);
-
 // Anotación Swagger para obtener un match por ID
 /**
  * @swagger
@@ -763,7 +746,6 @@ router.get('/matchs', authenticateToken, controllers.getAllMatches);
  *         description: Match no encontrado
  */
 router.get('/matchs/:id', authenticateToken, controllers.getMatchById);
-
 // Anotación Swagger para crear un match
 /**
  * @swagger
@@ -786,7 +768,6 @@ router.get('/matchs/:id', authenticateToken, controllers.getMatchById);
  *               $ref: '#/components/schemas/Match'
  */
 router.post('/matchs', authenticateToken, controllers.createMatch);
-
 // Anotación Swagger para eliminar un match
 /**
  * @swagger
@@ -814,7 +795,6 @@ router.post('/matchs', authenticateToken, controllers.createMatch);
  *         description: Match no encontrado
  */
 router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
-
 // Anotación Swagger para actualizar un match
 /**
  * @swagger
@@ -848,8 +828,6 @@ router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
  *         description: Match no encontrado
  */
 router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
-
-
 /**
  * @swagger
  * /usuarios/listar:
@@ -886,8 +864,4 @@ router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
  *               items:
  *                 $ref: '#/components/schemas/Usuario'
  */
-
-
-
 module.exports = router;
-

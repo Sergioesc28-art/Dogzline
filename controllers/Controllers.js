@@ -42,7 +42,6 @@ exports.login = async (req, res) => {
         return res.status(500).json({ mensaje: 'Error en la solicitud de inicio de sesión', error: error.message });
     }
 };
-
 // -------- CRUD para Usuarios --------
 // Obtener todos los usuarios con paginación
 exports.getAllUsuarios = async (req, res) => {
