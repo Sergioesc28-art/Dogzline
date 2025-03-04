@@ -3,9 +3,45 @@ const router = express.Router();
 const controllers = require('../controllers/Controllers');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 
-// Ruta para el inicio de sesión
+/**
+ * @swagger
+ * /usuarios/listar:
+ *   get:
+ *     summary: Obtiene todos los usuarios con paginación y búsqueda
+ *     security:
+ *       - BearerAuth: []
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Número de página (comienza desde 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Número de usuarios por página
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Término de búsqueda (NombreCompleto, email o role)
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios filtrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Usuario'
+ */
 router.get('/usuarios/listar', authenticateToken, controllers.listarUsuarios);
 
+// Ruta para el inicio de sesión
 router.post('/login', controllers.login);
 
 // -------- Rutas para Usuarios --------
@@ -828,40 +864,8 @@ router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
  *         description: Match no encontrado
  */
 router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
-/**
- * @swagger
- * /usuarios/listar:
- *   get:
- *     summary: Obtiene todos los usuarios con paginación y búsqueda
- *     security:
- *       - BearerAuth: []
- *     tags: [Usuarios]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *         description: Número de página (comienza desde 1)
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *         description: Número de usuarios por página
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Término de búsqueda (NombreCompleto, email o role)
- *     responses:
- *       200:
- *         description: Lista de usuarios filtrados
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Usuario'
- */
+
+//crud de likes 
+router.post('/api/likes', authenticateToken, controllers.darLike);
+
 module.exports = router;
