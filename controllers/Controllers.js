@@ -189,18 +189,38 @@ exports.getMascotaById = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener la mascota', error });
     }
 };
-
-exports.createNotificacion = async (req, res) => {
+//creacion de mascotas
+exports.createMascota = async (req, res) => {
     try {
-        console.log("📩 Datos recibidos en el servidor:", req.body);
+        const { nombre, edad, raza, sexo, color, vacunas, caracteristicas, certificado, fotos, Comportamiento, id_usuario } = req.body;
 
-        const nuevaNotificacion = new Notificacion(req.body);
-        await nuevaNotificacion.save();
-        
-        res.status(201).json(nuevaNotificacion);
+        // Verifica si los campos obligatorios están presentes
+        if (!nombre || !edad || !raza || !sexo || !color || !vacunas || !caracteristicas || !certificado || !fotos || !Comportamiento || !id_usuario) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        // Crea la nueva mascota
+        const nuevaMascota = new Mascota({
+            nombre,
+            edad,
+            raza,
+            sexo,
+            color,
+            vacunas,
+            caracteristicas,
+            certificado,
+            fotos,
+            Comportamiento,
+            id_usuario
+        });
+
+        // Guarda la mascota en la base de datos
+        await nuevaMascota.save();
+
+        res.status(201).json(nuevaMascota);
     } catch (error) {
-        console.error("❌ Error al crear la notificación:", error);
-        res.status(500).json({ message: "Error al crear la notificación", error });
+        console.error('Error al crear la mascota:', error);
+        res.status(500).json({ message: 'Error al crear la mascota', error: error.message });
     }
 };
 
@@ -487,11 +507,15 @@ exports.getNotificacionById = async (req, res) => {
 
 exports.createNotificacion = async (req, res) => {
     try {
+        console.log("📩 Datos recibidos en el servidor:", req.body);
+
         const nuevaNotificacion = new Notificacion(req.body);
         await nuevaNotificacion.save();
+        
         res.status(201).json(nuevaNotificacion);
     } catch (error) {
-        res.status(500).json({ message: 'Error al crear la notificación', error });
+        console.error("❌ Error al crear la notificación:", error);
+        res.status(500).json({ message: "Error al crear la notificación", error });
     }
 };
 
