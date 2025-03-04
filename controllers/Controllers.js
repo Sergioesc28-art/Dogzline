@@ -509,16 +509,20 @@ exports.createNotificacion = async (req, res) => {
     try {
         console.log("📩 Datos recibidos en el servidor:", req.body);
 
+        // Validar los datos recibidos
+        if (!req.body.id_usuario || !req.body.id_mascota || !req.body.mensaje_llegada || !req.body.contenido) {
+            return res.status(400).json({ message: "Faltan datos requeridos" });
+        }
+
         const nuevaNotificacion = new Notificacion(req.body);
         await nuevaNotificacion.save();
-        
+
         res.status(201).json(nuevaNotificacion);
     } catch (error) {
         console.error("❌ Error al crear la notificación:", error);
         res.status(500).json({ message: "Error al crear la notificación", error });
     }
 };
-
 exports.updateNotificacion = async (req, res) => {
     try {
         const { id } = req.params;
