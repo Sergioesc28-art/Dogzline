@@ -38,14 +38,36 @@ const matchSchema = new mongoose.Schema({
     id_encuentro: { type: mongoose.Schema.Types.ObjectId, ref: 'Encuentro', required: true },
     fecha_match: { type: Date, required: true }
 });
-// Definir el esquema de Notificación
 const notificacionSchema = new mongoose.Schema({
-    id_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
-    id_mascota: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
-    mensaje_llegada: { type: Date, required: true },
-    contenido: { type: String, required: true },
-    leido: { type: Boolean, default: false },
-    foto: { type: String } // Base64 encoded string
+    id_usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true
+    },
+    id_mascota: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Mascotas',
+        required: true
+    },
+    mensaje_llegada: {
+        type: String,  // Cambiado de Date a String
+        required: true
+    },
+    contenido: {
+        type: String,
+        required: true
+    },
+    leido: {
+        type: Boolean,
+        default: false
+    },
+    foto: {
+        type: String
+    },
+    fecha_creacion: {
+        type: Date,
+        default: Date.now  // Añadido para registrar la fecha de creación
+    }
 });
 // Definir el esquema de Solicitud
 const solicitudSchema = new mongoose.Schema({
