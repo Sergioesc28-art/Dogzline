@@ -1,4 +1,4 @@
-const Conversacion = require('../models/conversacionModel');
+const Conversacion = require('../models\ConversacionModelo.js');
 const Mensaje = require('../models/messageModel');
 
 // Crear una nueva conversación
