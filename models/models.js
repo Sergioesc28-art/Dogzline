@@ -33,11 +33,13 @@ const encuentroSchema = new mongoose.Schema({
 
 // Definir el esquema de Match
 const matchSchema = new mongoose.Schema({
-    id_usuario1: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
-    id_usuario2: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    id_mascota1: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
+    id_mascota2: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
     id_encuentro: { type: mongoose.Schema.Types.ObjectId, ref: 'Encuentro', required: true },
     fecha_match: { type: Date, required: true }
 });
+
+// Definir el esquema de Notificacion
 const notificacionSchema = new mongoose.Schema({
     id_usuario: {
         type: mongoose.Schema.Types.ObjectId,
