@@ -872,4 +872,7 @@ router.post('/api/likes', authenticateToken, controllers.darLike);
 router.post('/mensajes', authenticateToken, messageController.createMensaje);
 router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
 
+// Rutas para Conversaciones
+router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);
+router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
 module.exports = router;

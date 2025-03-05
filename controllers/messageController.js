@@ -1,4 +1,5 @@
 const Mensaje = require('../models/messageModel');
+const conversacionController = require('models\ConversacionModelo.js');
 
 // Crear un nuevo mensaje
 exports.createMensaje = async (req, res) => {
@@ -18,6 +19,10 @@ exports.createMensaje = async (req, res) => {
         });
 
         await nuevoMensaje.save();
+
+        // Actualizar la última actualización de la conversación
+        await conversacionController.updateConversacion(id_conversacion, nuevoMensaje._id);
+
         res.status(201).json(nuevoMensaje);
     } catch (error) {
         res.status(500).json({ message: 'Error al crear el mensaje', error });
