@@ -1,5 +1,5 @@
 const Mensaje = require('../models/messageModel');
-const conversacionController = require('models\ConversacionModelo.js');
+const conversacionController = require('./ConversacionController');
 
 // Crear un nuevo mensaje
 exports.createMensaje = async (req, res) => {

@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -18,7 +19,6 @@ const controllers = require('./controllers/Controllers');
 const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.JWT_SECRET || '_clave_secreta';
 
-
 // Conexión a MongoDB
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI)
@@ -26,6 +26,8 @@ mongoose.connect(mongoURI)
     .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
 const app = express();
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
 // Middleware para servir archivos estáticos (frontend)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -76,7 +78,6 @@ function verificarToken(req, res, next) {
 // Aplicar middleware de token a las rutas de /api, excluyendo login y creación de usuarios
 app.use('/api', routes);
 
-
 // Ruta principal para servir el archivo index.html del frontend
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -98,7 +99,28 @@ app.use((err, req, res, next) => {
     res.status(500).send('Algo salió mal!');
 });
 
+// Configuración de Socket.io
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado');
+
+    socket.on('enviar_mensaje', async (datos) => {
+        try {
+            const nuevoMensaje = new Mensaje(datos);
+            await nuevoMensaje.save();
+            
+            // Emitir a usuarios relevantes
+            io.emit('mensaje_nuevo', nuevoMensaje);
+        } catch (error) {
+            console.error('Error al enviar mensaje:', error);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
+});
+
 // Iniciar el servidor
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

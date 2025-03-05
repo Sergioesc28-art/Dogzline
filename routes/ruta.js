@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const controllers = require('../controllers/Controllers');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
+const messageController = require('../controllers/messageController');
+const conversacionController = require('../controllers/ConversacionController');
 
 /**
  * @swagger
