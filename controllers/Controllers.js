@@ -1,4 +1,3 @@
-
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { Usuario, Mascota,Encuentro, Match,Notificacion, Solicitud } = require('../models/models.js'); // Asegúrate de importar tus modelos de Mongoose

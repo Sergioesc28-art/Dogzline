@@ -868,4 +868,8 @@ router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
 // Ruta para dar like a una mascota
 router.post('/api/likes', authenticateToken, controllers.darLike);
 
+//---------Rutas para mensajes---------
+router.post('/mensajes', authenticateToken, messageController.createMensaje);
+router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
+
 module.exports = router;
