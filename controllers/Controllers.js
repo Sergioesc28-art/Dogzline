@@ -433,8 +433,6 @@ exports.deleteMatch = async (req, res) => {
     }
 };
 
-
-
 //CRUD NOTIFIICACIONES
 
 exports.getNotificacionesByUser = async (req, res) => {
