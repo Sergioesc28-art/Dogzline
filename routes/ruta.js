@@ -866,6 +866,8 @@ router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
  *         description: Match no encontrado
  */
 router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
+
+ruoter
 // -------- Rutas para Likes --------
 // Ruta para dar like a una mascota
 router.post('/api/likes', authenticateToken, controllers.darLike);
@@ -873,6 +875,7 @@ router.post('/api/likes', authenticateToken, controllers.darLike);
 //---------Rutas para mensajes---------
 router.post('/mensajes', authenticateToken, messageController.createMensaje);
 router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
+router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageController.getMensajesByConversacionId);
 
 // Rutas para Conversaciones
 router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);

@@ -10,16 +10,24 @@ exports.createConversacion = async (req, res) => {
             return res.status(400).json({ message: 'Se requieren al menos dos participantes' });
         }
 
-        const nuevaConversacion = new Conversacion({
-            participantes
+        // Verificar si ya existe una conversación con estos participantes
+        const conversacionExistente = await Conversacion.findOne({
+            participantes: { $all: participantes }
         });
 
+        if (conversacionExistente) {
+            return res.status(200).json(conversacionExistente);
+        }
+
+        const nuevaConversacion = new Conversacion({ participantes });
         await nuevaConversacion.save();
+
         res.status(201).json(nuevaConversacion);
     } catch (error) {
         res.status(500).json({ message: 'Error al crear la conversación', error });
     }
 };
+
 
 // Obtener conversaciones por ID de usuario (mascota)
 exports.getConversacionesByUserId = async (req, res) => {
