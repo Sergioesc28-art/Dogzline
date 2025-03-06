@@ -346,16 +346,16 @@ exports.deleteEncuentro = async (req, res) => {
 };
 
 // -------- CRUD para Matches --------
-// Obtener los matches de un usuario
-exports.getMatchesByUser = async (req, res) => {
+// Obtener los matches de una mascota
+exports.getMatchesByMascota = async (req, res) => {
     try {
-        const userId = req.params.userId;  // El ID del usuario se pasa en la URL
+        const mascotaId = req.params.mascotaId; // El ID de la mascota se pasa en la URL
 
         const matches = await Match.find({
-            $or: [{ id_usuario1: userId }, { id_usuario2: userId }]
+            $or: [{ id_mascota1: mascotaId }, { id_mascota2: mascotaId }]
         })
-        .populate('id_usuario1', 'nombre')  
-        .populate('id_usuario2', 'nombre');
+            .populate('id_mascota1', 'nombre')
+            .populate('id_mascota2', 'nombre');
 
         res.status(200).json(matches);
     } catch (error) {
@@ -363,19 +363,26 @@ exports.getMatchesByUser = async (req, res) => {
     }
 };
 
+// Obtener todos los matches
 exports.getAllMatches = async (req, res) => {
     try {
-        const matches = await Match.find();
+        const matches = await Match.find()
+            .populate('id_mascota1', 'nombre')
+            .populate('id_mascota2', 'nombre');
         res.json(matches);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener los matches', error });
     }
 };
 
+// Obtener un match por ID
 exports.getMatchById = async (req, res) => {
     try {
         const { id } = req.params;
-        const match = await Match.findById(id);
+        const match = await Match.findById(id)
+            .populate('id_mascota1', 'nombre')
+            .populate('id_mascota2', 'nombre');
+
         if (!match) {
             return res.status(404).json({ message: 'Match no encontrado' });
         }
@@ -385,6 +392,7 @@ exports.getMatchById = async (req, res) => {
     }
 };
 
+// Crear un nuevo match
 exports.createMatch = async (req, res) => {
     try {
         const nuevoMatch = new Match(req.body);
@@ -395,10 +403,12 @@ exports.createMatch = async (req, res) => {
     }
 };
 
+// Actualizar un match
 exports.updateMatch = async (req, res) => {
     try {
         const { id } = req.params;
         const matchActualizado = await Match.findByIdAndUpdate(id, req.body, { new: true });
+
         if (!matchActualizado) {
             return res.status(404).json({ message: 'Match no encontrado' });
         }
@@ -408,10 +418,12 @@ exports.updateMatch = async (req, res) => {
     }
 };
 
+// Eliminar un match
 exports.deleteMatch = async (req, res) => {
     try {
         const { id } = req.params;
         const matchEliminado = await Match.findByIdAndDelete(id);
+
         if (!matchEliminado) {
             return res.status(404).json({ message: 'Match no encontrado' });
         }
@@ -420,6 +432,7 @@ exports.deleteMatch = async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar el match', error });
     }
 };
+
 
 //CRUD NOTIFIICACIONES
 

@@ -35,7 +35,6 @@ const encuentroSchema = new mongoose.Schema({
 const matchSchema = new mongoose.Schema({
     id_mascota1: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
     id_mascota2: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
-    id_encuentro: { type: mongoose.Schema.Types.ObjectId, ref: 'Encuentro', required: true },
     fecha_match: { type: Date, required: true }
 });
 
