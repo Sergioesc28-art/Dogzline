@@ -867,7 +867,6 @@ router.delete('/matchs/:id', authenticateToken, controllers.deleteMatch);
  */
 router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
 
-ruoter
 // -------- Rutas para Likes --------
 // Ruta para dar like a una mascota
 router.post('/api/likes', authenticateToken, controllers.darLike);
