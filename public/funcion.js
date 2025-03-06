@@ -19,30 +19,45 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     }
   });
   
-  // Crear un nuevo Usuario
-  document.getElementById('create-user-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('new-email').value;
-    const password = document.getElementById('new-password').value;
-    const role = document.getElementById('role').value;
-    const token = localStorage.getItem('token');
+// Crear un nuevo Usuario
+document.getElementById('create-user-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
   
-    const response = await fetch('https://dogzline-1.onrender.com/api/usuarios', {
+  // Obtener valores del formulario
+  const nombreCompleto = document.getElementById('new-nombre').value; // Agregado
+  const email = document.getElementById('new-email').value;
+  const password = document.getElementById('new-password').value;
+  const role = document.getElementById('role').value;
+  const token = localStorage.getItem('token');
+
+  // Verificar que todos los campos estén llenos antes de enviar la solicitud
+  if (!nombreCompleto || !email || !password || !role) {
+      alert('Todos los campos son obligatorios.');
+      return;
+  }
+
+  // Enviar la solicitud
+  const response = await fetch('https://dogzline-1.onrender.com/api/usuarios', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ email, contraseña: password, role })
-    });
-  
-    const data = await response.json();
-    if (response.ok) {
-      alert('Usuario creado con éxito');
-    } else {
-      alert('Error: ' + data.mensaje);
-    }
+      body: JSON.stringify({ 
+          NombreCompleto: nombreCompleto,  // Agregado
+          email, 
+          contraseña: password, 
+          role 
+      })
   });
+
+  const data = await response.json();
+  if (response.ok) {
+      alert('Usuario creado con éxito');
+  } else {
+      alert('Error: ' + data.message);
+  }
+});
   
   // Función para cargar los usuarios con paginación
   async function loadUsuarios(page) {
