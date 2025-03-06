@@ -35,8 +35,27 @@ const encuentroSchema = new mongoose.Schema({
 const matchSchema = new mongoose.Schema({
     id_mascota1: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
     id_mascota2: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
-    fecha_match: { type: Date, required: true }
+    fecha_match: { type: Date, required: true },
+    // Añadimos la información de la sala de chat al schema del match
+    chatRoom: {
+        roomId: { type: String, required: true, unique: true },
+        created: { type: Date, default: Date.now },
+        lastActivity: { type: Date, default: Date.now }
+    }
 });
+
+const chatRoomSchema = new mongoose.Schema({
+    roomId: { type: String, required: true, unique: true },
+    matchId: { type: mongoose.Schema.Types.ObjectId, ref: 'Match', required: true },
+    participants: [{
+        mascotaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true }
+    }],
+    isActive: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Crear y exportar el modelo ChatRoom
+const ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
 
 // Definir el esquema de Notificacion
 const notificacionSchema = new mongoose.Schema({
@@ -113,5 +132,7 @@ module.exports = {
     Encuentro,
     Match,
     Notificacion,
-    Solicitud
+    Solicitud,
+    chatRoomSchema,
+    ChatRoom
 };

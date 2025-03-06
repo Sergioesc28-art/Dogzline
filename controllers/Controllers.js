@@ -1,7 +1,16 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { Usuario, Mascota,Encuentro, Match,Notificacion, Solicitud } = require('../models/models.js'); // Asegúrate de importar tus modelos de Mongoose
+const {
+    Usuario,
+    Mascota,
+    Encuentro,
+    Match,
+    Notificacion,
+    Solicitud,
+    ChatRoom  // Añade esta línea
+} = require('../models/models.js');
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 // Login
 exports.login = async (req, res) => {
@@ -401,17 +410,51 @@ exports.createMatch = async (req, res) => {
         const idMascota1 = new mongoose.Types.ObjectId(req.body.id_mascota1);
         const idMascota2 = new mongoose.Types.ObjectId(req.body.id_mascota2);
 
+        // Generar un ID único para la sala de chat
+        const roomId = uuidv4();
+
+        // Crear el nuevo match con la información de la sala
         const nuevoMatch = new Match({
             id_mascota1: idMascota1,
             id_mascota2: idMascota2,
             fecha_match: req.body.fecha_match || new Date(),
+            chatRoom: {
+                roomId: roomId,
+                created: new Date(),
+                lastActivity: new Date()
+            }
         });
 
-        await nuevoMatch.save();
-        res.status(201).json(nuevoMatch);
+        // Guardar el match
+        const matchGuardado = await nuevoMatch.save();
+
+        // Crear la sala de chat
+        const nuevaSalaChat = new ChatRoom({
+            roomId: roomId,
+            matchId: matchGuardado._id,
+            participants: [
+                { mascotaId: idMascota1 },
+                { mascotaId: idMascota2 }
+            ]
+        });
+
+        // Guardar la sala de chat
+        await nuevaSalaChat.save();
+
+        // Responder con el match creado
+        res.status(201).json({
+            match: matchGuardado,
+            chatRoom: {
+                roomId: nuevaSalaChat.roomId,
+                participants: nuevaSalaChat.participants
+            }
+        });
     } catch (error) {
         console.error('Error al crear el match:', error);
-        res.status(500).json({ message: 'Error al crear el match', error });
+        res.status(500).json({
+            message: 'Error al crear el match y la sala de chat',
+            error: error.message
+        });
     }
 };
 

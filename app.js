@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
         try {
             const nuevoMensaje = new Mensaje(datos);
             await nuevoMensaje.save();
-            
+
             // Emitir a usuarios relevantes
             io.emit('mensaje_nuevo', nuevoMensaje);
         } catch (error) {
