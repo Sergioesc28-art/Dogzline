@@ -16,14 +16,17 @@ exports.createConversacion = async (req, res) => {
         });
 
         if (conversacionExistente) {
+            console.log('Conversación existente encontrada:', conversacionExistente); // Agrega esta línea para depuración
             return res.status(200).json(conversacionExistente);
         }
 
         const nuevaConversacion = new Conversacion({ participantes });
-        await nuevaConversacion.save();
+        const conversacionGuardada = await nuevaConversacion.save();
+        console.log('Nueva conversación guardada:', conversacionGuardada); // Agrega esta línea para depuración
 
-        res.status(201).json(nuevaConversacion);
+        res.status(201).json(conversacionGuardada);
     } catch (error) {
+        console.error('Error al crear la conversación:', error); // Agrega esta línea para depuración
         res.status(500).json({ message: 'Error al crear la conversación', error });
     }
 };
