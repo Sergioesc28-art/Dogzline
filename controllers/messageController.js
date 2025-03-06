@@ -43,7 +43,6 @@ exports.getMensajesByUserId = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los mensajes', error });
     }
 };
-
 // Obtener mensajes por ID de conversación
 exports.getMensajesByConversacionId = async (req, res) => {
     try {

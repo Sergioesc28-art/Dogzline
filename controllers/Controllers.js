@@ -84,27 +84,29 @@ exports.getUsuarioById = async (req, res) => {
     }
 };
 
-
+//creacion de usuaroo
 exports.createUsuario = async (req, res) => {
     try {
-        const { email, contraseña, role } = req.body;
+        // Desestructurar los campos necesarios del cuerpo de la solicitud
+        const { NombreCompleto, email, contraseña, role } = req.body;
 
-        // Verifica si los campos obligatorios están presentes
-        if (!email || !contraseña || !role) {
-            return res.status(400).json({ message: 'Todos los campos (email, contraseña, role) son requeridos' });
+        // Verificar si todos los campos obligatorios están presentes
+        if (!NombreCompleto || !email || !contraseña || !role) {
+            return res.status(400).json({ message: 'Todos los campos (NombreCompleto, email, contraseña, role) son requeridos' });
         }
 
         // Crea el nuevo usuario sin encriptar la contraseña
-        const newUser  = new Usuario({
+        const newUser = new Usuario({
+            NombreCompleto,  // Asegúrate de que se está guardando correctamente
             email,
             contraseña, // Aquí se guarda la contraseña sin encriptar
             role,
         });
 
         // Guarda el usuario en la base de datos
-        await Usuario.create(newUser);
+        await newUser.save(); // Usar save() en lugar de Usuario.create() es más adecuado aquí
 
-        res.status(201).json(newUser );
+        res.status(201).json(newUser);  // Responder con los datos del nuevo usuario creado
     } catch (error) {
         console.error('Error al crear el usuario:', error);
         res.status(500).json({ message: 'Error al crear el usuario', error: error.message });
@@ -395,13 +397,24 @@ exports.getMatchById = async (req, res) => {
 // Crear un nuevo match
 exports.createMatch = async (req, res) => {
     try {
-        const nuevoMatch = new Match(req.body);
+        // Convertir los ID a ObjectId
+        const idMascota1 = new mongoose.Types.ObjectId(req.body.id_mascota1);
+        const idMascota2 = new mongoose.Types.ObjectId(req.body.id_mascota2);
+
+        const nuevoMatch = new Match({
+            id_mascota1: idMascota1,
+            id_mascota2: idMascota2,
+            fecha_match: req.body.fecha_match || new Date(),
+        });
+
         await nuevoMatch.save();
         res.status(201).json(nuevoMatch);
     } catch (error) {
+        console.error('Error al crear el match:', error);
         res.status(500).json({ message: 'Error al crear el match', error });
     }
 };
+
 
 // Actualizar un match
 exports.updateMatch = async (req, res) => {
