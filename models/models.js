@@ -121,6 +121,31 @@ const createUsuario = async (usuarioData) => {
     return await nuevoUsuario.save();
 };
 
+const messageSchema = new mongoose.Schema({
+    chatRoomId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ChatRoom',
+        required: true
+    },
+    senderId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Mascotas',
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+// Crear y exportar el modelo Message
+const Message = mongoose.model('Message', messageSchema);
+
+
 
 // Exportar el modelo y las funciones
 module.exports = {
@@ -134,5 +159,6 @@ module.exports = {
     Notificacion,
     Solicitud,
     chatRoomSchema,
-    ChatRoom
+    ChatRoom,
+    Message
 };

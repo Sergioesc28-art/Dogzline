@@ -872,11 +872,13 @@ router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
 router.post('/api/likes', authenticateToken, controllers.darLike);
 
 //---------Rutas para mensajes---------
-router.post('/mensajes', authenticateToken, messageController.createMensaje);
+router.post('/mensajes', authenticateToken, controllers.createMensaje);
+router.get('/mensajes/conversacion/:conversacionId', authenticateToken, controllers.getMensajesByConversacionId);
 router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
-router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageController.getMensajesByConversacionId);
+
 
 // Rutas para Conversaciones
 router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);
 router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
 module.exports = router;
+

@@ -56,3 +56,34 @@ exports.getMensajesByConversacionId = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los mensajes', error });
     }
 };
+
+
+exports.getMensajesByConversacionId = async (req, res) => {
+    try {
+        const { conversacionId } = req.params;
+
+        // Validar que el ID de la conversación sea válido
+        if (!mongoose.Types.ObjectId.isValid(conversacionId)) {
+            return res.status(400).json({ message: 'ID de conversación inválido' });
+        }
+
+        // Obtener los mensajes de la conversación ordenados por fecha
+        const mensajes = await Message.find({ chatRoomId: conversacionId })
+            .sort({ timestamp: 1 }) // Orden ascendente (del más antiguo al más reciente)
+            .populate('senderId', 'nombre'); // Opcional: incluir detalles del remitente
+
+        // Verificar si se encontraron mensajes
+        if (!mensajes || mensajes.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron mensajes para esta conversación' });
+        }
+
+        // Responder con los mensajes
+        res.json({
+            total: mensajes.length,
+            mensajes
+        });
+    } catch (error) {
+        console.error('Error al obtener los mensajes:', error);
+        res.status(500).json({ message: 'Error al obtener los mensajes', error: error.message });
+    }
+};

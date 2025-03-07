@@ -7,6 +7,7 @@ const {
     Match,
     Notificacion,
     Solicitud,
+    Message,
     ChatRoom  // Añade esta línea
 } = require('../models/models.js');
 const mongoose = require('mongoose');
@@ -747,5 +748,112 @@ exports.darLike = async (req, res) => {
         res.status(201).json({ message: 'Like registrado exitosamente', encuentro: nuevoEncuentro });
     } catch (error) {
         res.status(500).json({ message: 'Error al registrar el like', error });
+    }
+};
+
+exports.createMensaje = async (req, res) => {
+    try {
+        console.log('--- Inicio de createMensaje ---');
+
+        // Log 1: Imprimir el cuerpo de la solicitud (req.body)
+        console.log('Datos recibidos en req.body:', req.body);
+
+        // Extraer los campos del cuerpo de la solicitud
+        const { chatRoomId, senderId, content } = req.body;
+
+        // Log 2: Verificar los valores extraídos
+        console.log('Valores extraídos - chatRoomId:', chatRoomId, 'senderId:', senderId, 'content:', content);
+
+        // Validar que todos los campos obligatorios estén presentes
+        if (!chatRoomId || !senderId || !content) {
+            console.log('Error: Faltan campos obligatorios');
+            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        }
+
+        // Validar que el chatRoom exista
+        console.log('Buscando ChatRoom con ID:', chatRoomId);
+        const chatRoom = await ChatRoom.findById(chatRoomId);
+
+        // Log 3: Verificar si se encontró el chatRoom
+        console.log('Resultado de la búsqueda de ChatRoom:', chatRoom);
+
+        if (!chatRoom) {
+            console.log('Error: ChatRoom no encontrado');
+            return res.status(404).json({ message: 'ChatRoom no encontrado' });
+        }
+
+        // Crear el nuevo mensaje
+        console.log('Creando nuevo mensaje...');
+        const nuevoMensaje = new Message({
+            chatRoomId: chatRoomId,
+            senderId: senderId,
+            content: content
+        });
+
+        // Log 4: Verificar el objeto del nuevo mensaje antes de guardarlo
+        console.log('Nuevo mensaje creado:', nuevoMensaje);
+
+        // Guardar el mensaje en la base de datos
+        console.log('Guardando mensaje en la base de datos...');
+        const mensajeGuardado = await nuevoMensaje.save();
+
+        // Log 5: Verificar el mensaje guardado
+        console.log('Mensaje guardado exitosamente:', mensajeGuardado);
+
+        // Actualizar la última actividad en el chatRoom
+        console.log('Actualizando última actividad del ChatRoom...');
+        chatRoom.lastActivity = new Date();
+        await chatRoom.save();
+
+        // Log 6: Confirmar que se actualizó el chatRoom
+        console.log('ChatRoom actualizado con éxito');
+
+        // Responder con el mensaje creado
+        console.log('Respuesta enviada al cliente');
+        res.status(201).json({
+            message: mensajeGuardado
+        });
+
+        console.log('--- Fin de createMensaje ---');
+    } catch (error) {
+        console.error('--- Error en createMensaje ---');
+        console.error('Error completo:', error);
+        console.error('Stack trace:', error.stack);
+
+        // Responder con el error al cliente
+        res.status(500).json({
+            message: 'Error al enviar el mensaje',
+            error: error.message
+        });
+    }
+};
+
+exports.getMensajesByConversacionId = async (req, res) => {
+    try {
+        const { conversacionId } = req.params;
+
+        // Validar que el ID de la conversación sea válido
+        if (!mongoose.Types.ObjectId.isValid(conversacionId)) {
+            return res.status(400).json({ message: 'ID de conversación inválido' });
+        }
+
+        // Obtener los mensajes de la conversación ordenados por fecha
+        const mensajes = await Message.find({ chatRoomId: conversacionId })
+            .sort({ timestamp: 1 }) // Orden ascendente (del más antiguo al más reciente)
+            .populate('senderId', 'nombre'); // Opcional: incluir detalles del remitente
+
+        // Verificar si se encontraron mensajes
+        if (!mensajes || mensajes.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron mensajes para esta conversación' });
+        }
+
+        // Responder con los mensajes
+        res.json({
+            total: mensajes.length,
+            mensajes
+        });
+    } catch (error) {
+        console.error('Error al obtener los mensajes:', error);
+        res.status(500).json({ message: 'Error al obtener los mensajes', error: error.message });
     }
 };
