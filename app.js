@@ -41,12 +41,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware CORS para permitir solicitudes desde cualquier origen
 const corsOptions = {
-    origin: [
-        'http://localhost:5173', // Permitir localhost para desarrollo (Vite)
-        'https://dogzline-1.onrender.com' // Permitir frontend en producción
-    ], // Usa el origen de tu despliegue
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*', // Permitir cualquier origen
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Permitir todos los métodos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Permitir estos encabezados
+    credentials: true // Permitir envío de credenciales si es necesario
 };
 
 app.use(cors(corsOptions));
