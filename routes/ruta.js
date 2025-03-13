@@ -882,3 +882,7 @@ router.post('/conversaciones', authenticateToken, conversacionController.createC
 router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
 module.exports = router;
 
+router.post('/', conversacionController.createConversacion);
+router.get('/user/:userId', conversacionController.getConversacionesByUserId);
+
+module.exports = router;

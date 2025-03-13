@@ -37,10 +37,11 @@ const matchSchema = new mongoose.Schema({
     id_mascota2: { type: mongoose.Schema.Types.ObjectId, ref: 'Mascotas', required: true },
     fecha_match: { type: Date, required: true },
     // Añadimos la información de la sala de chat al schema del match
+    // In your Match model
     chatRoom: {
-        roomId: { type: String, required: true, unique: true },
-        created: { type: Date, default: Date.now },
-        lastActivity: { type: Date, default: Date.now }
+        roomId: String,
+        created: Date,
+        lastActivity: Date
     }
 });
 

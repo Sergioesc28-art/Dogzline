@@ -1,60 +1,19 @@
-const Conversacion = require('../models/ConversacionModelo.js');
-const Mensaje = require('../models/messageModel');
+// Archivo de configuración de socket en el cliente
+import io from 'socket.io-client';
 
-// Crear una nueva conversación
-exports.createConversacion = async (req, res) => {
-    try {
-        const { participantes } = req.body;
+const ENDPOINT = 'https://tu-app-en-render.com';
+const socket = io(ENDPOINT);
 
-        if (!participantes || participantes.length < 2) {
-            return res.status(400).json({ message: 'Se requieren al menos dos participantes' });
-        }
-
-        // Verificar si ya existe una conversación con estos participantes
-        const conversacionExistente = await Conversacion.findOne({
-            participantes: { $all: participantes }
-        });
-
-        if (conversacionExistente) {
-            console.log('Conversación existente encontrada:', conversacionExistente); // Agrega esta línea para depuración
-            return res.status(200).json(conversacionExistente);
-        }
-
-        const nuevaConversacion = new Conversacion({ participantes });
-        const conversacionGuardada = await nuevaConversacion.save();
-        console.log('Nueva conversación guardada:', conversacionGuardada); // Agrega esta línea para depuración
-
-        res.status(201).json(conversacionGuardada);
-    } catch (error) {
-        console.error('Error al crear la conversación:', error); // Agrega esta línea para depuración
-        res.status(500).json({ message: 'Error al crear la conversación', error });
-    }
+export const joinChat = (conversacionId) => {
+  socket.emit('join_chat', conversacionId);
 };
 
-
-// Obtener conversaciones por ID de usuario (mascota)
-exports.getConversacionesByUserId = async (req, res) => {
-    try {
-        const { userId } = req.params;
-
-        const conversaciones = await Conversacion.find({
-            participantes: userId
-        }).sort({ fecha_actualizacion: -1 }).populate('participantes', 'nombre').populate('ultimo_mensaje');
-
-        res.json(conversaciones);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener las conversaciones', error });
-    }
+export const sendMessage = (messageData) => {
+  socket.emit('send_message', messageData);
 };
 
-// Actualizar la última actualización de la conversación
-exports.updateConversacion = async (conversacionId, mensajeId) => {
-    try {
-        await Conversacion.findByIdAndUpdate(conversacionId, {
-            ultimo_mensaje: mensajeId,
-            fecha_actualizacion: Date.now()
-        });
-    } catch (error) {
-        console.error('Error al actualizar la conversación:', error);
-    }
+export const receiveMessage = (callback) => {
+  socket.on('receive_message', callback);
 };
+
+export default socket;

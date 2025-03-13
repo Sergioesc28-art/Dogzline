@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { Usuario, Mascota } = require('./models/models.js'); // Importar funciones del modelo
+const { Usuario, Mascota } = require('./models/models.js'); // Importar modelos
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocs = require('./swagger'); // Importa la configuración de Swagger
+const swaggerDocs = require('./swagger'); // Configuración de Swagger
 require('dotenv').config();
 
-// Importa el archivo de controladores
+// Importa controladores y socketHandler
 const controllers = require('./controllers/Controllers');
 
 const PORT = process.env.PORT || 3000;
@@ -22,12 +22,15 @@ const SECRET_KEY = process.env.JWT_SECRET || '_clave_secreta';
 // Conexión a MongoDB
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI)
-    .then(() => console.log('Conectado a MongoDB'))
-    .catch(err => console.error('No se pudo conectar a MongoDB', err));
+    .then(() => console.log('✅ Conectado a MongoDB'))
+    .catch(err => console.error('❌ No se pudo conectar a MongoDB', err));
 
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+
+// Importar manejador de WebSockets
+require('./socket/socketHandler')(io);
 
 // Middleware para servir archivos estáticos (frontend)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,27 +38,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware de logging
 app.use(morgan('dev'));
 
-// Middleware para parsear cuerpos JSON y formularios
+// Middleware para parsear JSON y formularios
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware CORS para permitir solicitudes desde cualquier origen
+// Middleware CORS
 const corsOptions = {
-    origin: '*', // Permitir cualquier origen
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Permitir todos los métodos
-    allowedHeaders: ['Content-Type', 'Authorization'], // Permitir estos encabezados
-    credentials: true // Permitir envío de credenciales si es necesario
+    origin: '*', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true 
 };
-
 app.use(cors(corsOptions));
 
-// Configuración de Swagger para documentar la API
+// Configuración de Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Endpoint para inicio de sesión
+// Endpoint para login
 app.post('/api/login', controllers.login);
 
-// Middleware para verificar el token
+// Middleware para verificar tokens
 function verificarToken(req, res, next) {
     const token = req.headers['authorization']?.split(' ')[1];
 
@@ -73,20 +75,20 @@ function verificarToken(req, res, next) {
     });
 }
 
-// Aplicar middleware de token a las rutas de /api, excluyendo login y creación de usuarios
+// Aplicar middleware de autenticación en rutas protegidas
 app.use('/api', routes);
 
-// Ruta principal para servir el archivo index.html del frontend
+// Ruta principal para servir el frontend
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Agregar favicon vacío para evitar el error 404
+// Agregar favicon vacío para evitar error 404
 app.get('/favicon.ico', (req, res) => {
     res.status(204).send();
 });
 
-// Ruta 404 en caso de que no exista la ruta solicitada
+// Middleware 404 para rutas inexistentes
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Ruta no encontrada' });
 });
@@ -97,28 +99,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Algo salió mal!');
 });
 
-// Configuración de Socket.io
-io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
-
-    socket.on('enviar_mensaje', async (datos) => {
-        try {
-            const nuevoMensaje = new Mensaje(datos);
-            await nuevoMensaje.save();
-
-            // Emitir a usuarios relevantes
-            io.emit('mensaje_nuevo', nuevoMensaje);
-        } catch (error) {
-            console.error('Error al enviar mensaje:', error);
-        }
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
-    });
-});
-
 // Iniciar el servidor
 server.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
 });
