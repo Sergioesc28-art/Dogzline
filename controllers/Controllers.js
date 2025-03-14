@@ -16,7 +16,7 @@ const { v4: uuidv4 } = require('uuid');
 // Login
 exports.login = async (req, res) => {
     const { email, contraseña } = req.body;
-    
+
     console.log('Datos recibidos:', req.body);
 
     try {
@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 
         // Comparar las contraseñas directamente
         if (contraseña !== usuario.contraseña) {
-            return res.status(401).json({ mensaje: 'Usuario o contraseña no se encuentra' });
+            return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
         }
 
         // Generar el token JWT
@@ -45,7 +45,11 @@ exports.login = async (req, res) => {
 
         console.log('Token generado:', token);
 
-        return res.json({ token });
+        // ✅ Ahora incluimos el nombre completo del usuario en la respuesta
+        return res.json({
+            token,
+            NombreCompleto: usuario.NombreCompleto  // 👈 Aquí se envía el nombre al frontend
+        });
     } catch (error) {
         console.error("Error en la solicitud de inicio de sesión:", error);
         return res.status(500).json({ mensaje: 'Error en la solicitud de inicio de sesión', error: error.message });
