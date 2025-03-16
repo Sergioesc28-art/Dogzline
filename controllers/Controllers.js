@@ -755,83 +755,42 @@ exports.darLike = async (req, res) => {
     }
 };
 
+// Reemplaza la función existente createMensaje
 exports.createMensaje = async (req, res) => {
     try {
-        console.log('--- Inicio de createMensaje ---');
-
-        // Log 1: Imprimir el cuerpo de la solicitud (req.body)
-        console.log('Datos recibidos en req.body:', req.body);
-
-        // Extraer los campos del cuerpo de la solicitud
-        const { chatRoomId, senderId, content } = req.body;
-
-        // Log 2: Verificar los valores extraídos
-        console.log('Valores extraídos - chatRoomId:', chatRoomId, 'senderId:', senderId, 'content:', content);
-
-        // Validar que todos los campos obligatorios estén presentes
-        if (!chatRoomId || !senderId || !content) {
-            console.log('Error: Faltan campos obligatorios');
-            return res.status(400).json({ message: 'Todos los campos son requeridos' });
-        }
-
-        // Validar que el chatRoom exista
-        console.log('Buscando ChatRoom con ID:', chatRoomId);
-        const chatRoom = await ChatRoom.findById(chatRoomId);
-
-        // Log 3: Verificar si se encontró el chatRoom
-        console.log('Resultado de la búsqueda de ChatRoom:', chatRoom);
-
-        if (!chatRoom) {
-            console.log('Error: ChatRoom no encontrado');
-            return res.status(404).json({ message: 'ChatRoom no encontrado' });
-        }
-
-        // Crear el nuevo mensaje
-        console.log('Creando nuevo mensaje...');
-        const nuevoMensaje = new Message({
-            chatRoomId: chatRoomId,
-            senderId: senderId,
-            content: content
-        });
-
-        // Log 4: Verificar el objeto del nuevo mensaje antes de guardarlo
-        console.log('Nuevo mensaje creado:', nuevoMensaje);
-
-        // Guardar el mensaje en la base de datos
-        console.log('Guardando mensaje en la base de datos...');
-        const mensajeGuardado = await nuevoMensaje.save();
-
-        // Log 5: Verificar el mensaje guardado
-        console.log('Mensaje guardado exitosamente:', mensajeGuardado);
-
-        // Actualizar la última actividad en el chatRoom
-        console.log('Actualizando última actividad del ChatRoom...');
-        chatRoom.lastActivity = new Date();
-        await chatRoom.save();
-
-        // Log 6: Confirmar que se actualizó el chatRoom
-        console.log('ChatRoom actualizado con éxito');
-
-        // Responder con el mensaje creado
-        console.log('Respuesta enviada al cliente');
-        res.status(201).json({
-            message: mensajeGuardado
-        });
-
-        console.log('--- Fin de createMensaje ---');
+      const { chatRoomId, senderId, content } = req.body;
+  
+      if (!chatRoomId || !senderId || !content) {
+        return res.status(400).json({ message: 'Todos los campos son requeridos' });
+      }
+  
+      const chatRoom = await ChatRoom.findById(chatRoomId);
+      if (!chatRoom) {
+        return res.status(404).json({ message: 'Chat room no encontrado' });
+      }
+  
+      const nuevoMensaje = new Message({
+        chatRoomId,
+        senderId,
+        content
+      });
+  
+      const mensajeGuardado = await nuevoMensaje.save();
+      
+      // Update last activity in chat room
+      chatRoom.lastActivity = new Date();
+      await chatRoom.save();
+  
+      res.status(201).json({ message: mensajeGuardado });
     } catch (error) {
-        console.error('--- Error en createMensaje ---');
-        console.error('Error completo:', error);
-        console.error('Stack trace:', error.stack);
-
-        // Responder con el error al cliente
-        res.status(500).json({
-            message: 'Error al enviar el mensaje',
-            error: error.message
-        });
+      console.error('Error al crear mensaje:', error);
+      res.status(500).json({
+        message: 'Error al enviar el mensaje',
+        error: error.message
+      });
     }
-};
-
+  };
+  
 exports.getMensajesByConversacionId = async (req, res) => {
     try {
         const { conversacionId } = req.params;

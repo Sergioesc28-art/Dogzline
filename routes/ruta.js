@@ -4,6 +4,8 @@ const controllers = require('../controllers/Controllers');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 const messageController = require('../controllers/messageController');
 const conversacionController = require('../controllers/ConversacionController');
+const messageController = require('../controllers/Controllers.js'); // Ajusta según tu estructura
+const chatRoomController = require('../controllers/chatRoomController.js');
 
 /**
  * @swagger
@@ -885,4 +887,16 @@ module.exports = router;
 router.post('/', conversacionController.createConversacion);
 router.get('/user/:userId', conversacionController.getConversacionesByUserId);
 
+
+const messageController = require('../controllers/Controllers.js'); // Ajusta según tu estructura
+const chatRoomController = require('../controllers/chatRoomController.js');
+
+// Rutas de mensajes
+router.post('/messages', messageController.createMensaje);
+router.get('/messages/chatroom/:conversacionId', messageController.getMensajesByConversacionId);
+
+// Rutas de salas de chat
+router.get('/chatrooms/user/:userId', chatRoomController.getChatRoomsByUserId);
+
+module.exports = router;
 module.exports = router;

@@ -4,11 +4,12 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/ruta'); // Rutas de tu API
+const messageRoutes = require('./routes/messageRoutes'); // Ruta de los mensajes
 const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { Usuario, Mascota } = require('./models/models.js'); // Importar modelos
+const { Usuario, Mascota, Message, ChatRoom } = require('./models/models.js'); // Importar modelos
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swagger'); // Configuración de Swagger
 require('dotenv').config();
@@ -27,7 +28,12 @@ mongoose.connect(mongoURI)
 
 const app = express();
 const server = http.createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 // Importar manejador de WebSockets
 require('./socket/socketHandler')(io);
@@ -78,6 +84,9 @@ function verificarToken(req, res, next) {
 // Aplicar middleware de autenticación en rutas protegidas
 app.use('/api', routes);
 
+// Usar las rutas de mensajes
+app.use('/api/messages', messageRoutes);
+
 // Ruta principal para servir el frontend
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -97,6 +106,44 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Algo salió mal!');
+});
+
+// WebSocket Logic
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado');
+  
+    socket.on('join_chat', (roomId) => {
+        socket.join(roomId);
+        console.log(`Usuario unido a la sala: ${roomId}`);
+    });
+
+    socket.on('send_message', async (messageData) => {
+        try {
+            // Guardar mensaje en la base de datos
+            const newMessage = new Message({
+                chatRoomId: messageData.chatRoomId,
+                senderId: messageData.senderId,
+                content: messageData.content
+            });
+            
+            await newMessage.save();
+            
+            // Actualizar última actividad de la sala de chat
+            await ChatRoom.findByIdAndUpdate(
+                messageData.chatRoomId, 
+                { lastActivity: new Date() }
+            );
+            
+            // Broadcast el mensaje a todos los miembros de la sala
+            io.to(messageData.chatRoomId).emit('receive_message', newMessage);
+        } catch (error) {
+            console.error('Error guardando mensaje:', error);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
 });
 
 // Iniciar el servidor
