@@ -26,8 +26,14 @@ router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageC
 router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId); // Obtener mensajes por usuario
 
 // ---------------- Rutas para conversaciones ----------------
-router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId); // Obtener conversaciones por usuario
-
+router.get('/conversaciones', async (req, res) => {
+    try {
+        const conversaciones = await obtenerConversaciones();
+        res.status(200).json(conversaciones);
+    } catch (error) {
+        res.status(500).send('Error al obtener las conversaciones');
+    }
+});
 // ---------------- Rutas de salas de chat ----------------
 router.get('/chatrooms/user/:userId', authenticateToken, chatRoomController.getChatRoomsByUserId); // Obtener salas de chat por usuario
 
