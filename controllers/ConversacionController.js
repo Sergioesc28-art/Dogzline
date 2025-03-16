@@ -1,5 +1,5 @@
 // ConversacionController.js
-const { Conversacion } = require('../models/conversacionModel');
+const { Conversacion } = require('../models/ConversacionModelo');
 
 exports.updateConversacion = async (conversacionId, ultimoMensajeId) => {
   try {
