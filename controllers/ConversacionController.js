@@ -1,24 +1,18 @@
-// Archivo de configuración de socket en el cliente
-const io = require('socket.io-client');
+// ConversacionController.js
+const { Conversacion } = require('../models/conversacionModel');
 
-const ENDPOINT = 'https://dogzline-j7t6.onrender.com';
-const socket = io(ENDPOINT);
+exports.updateConversacion = async (conversacionId, ultimoMensajeId) => {
+  try {
+    // Actualizar el campo 'ultimo_mensaje' en la conversación
+    const conversacion = await Conversacion.findById(conversacionId);
+    if (!conversacion) {
+      throw new Error('Conversación no encontrada');
+    }
 
-const joinChat = (conversacionId) => {
-  socket.emit('join_chat', conversacionId);
-};
-
-const sendMessage = (messageData) => {
-  socket.emit('send_message', messageData);
-};
-
-const receiveMessage = (callback) => {
-  socket.on('receive_message', callback);
-};
-
-module.exports = {
-  socket,
-  joinChat,
-  sendMessage,
-  receiveMessage
+    conversacion.ultimo_mensaje = ultimoMensajeId;
+    conversacion.fecha_ultimo_mensaje = new Date();
+    await conversacion.save();
+  } catch (error) {
+    console.error('Error al actualizar la conversación:', error);
+  }
 };

@@ -8,19 +8,17 @@ const chatRoomController = require('../controllers/chatRoomController');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 
 // ---------------- Rutas para mensajes ----------------
-router.post('/mensajes', authenticateToken, messageController.createMensaje);
-router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageController.getMensajesByConversacionId);
-router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
+router.post('/mensajes', authenticateToken, messageController.createMensaje); // Crear mensaje
+router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageController.getMensajesByConversacionId); // Obtener mensajes por conversacion
+router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId); // Obtener mensajes por usuario
 
 // ---------------- Rutas para conversaciones ----------------
-router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);
-router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
+router.post('/conversaciones', authenticateToken, conversacionController.createConversacion); // Crear conversación
+router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId); // Obtener conversaciones por usuario
 
 // ---------------- Rutas de salas de chat ----------------
-router.get('/chatrooms/user/:userId', chatRoomController.getChatRoomsByUserId);
+router.get('/chatrooms/user/:userId', authenticateToken, chatRoomController.getChatRoomsByUserId); // Obtener salas de chat por usuario
 
-// Exportar router (solo una vez)
-module.exports = router;
 
 /**
  * @swagger
