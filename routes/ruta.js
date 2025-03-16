@@ -906,3 +906,4 @@ router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
 // Ruta para dar like a una mascota
 router.post('/api/likes', authenticateToken, controllers.darLike);
 
+module.exports = router;
