@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/ruta'); // Rutas de tu API
-const messageRoutes = require('./routes/messageRoutes'); // Ruta de los mensajes
 const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -82,10 +81,7 @@ function verificarToken(req, res, next) {
 }
 
 // Aplicar middleware de autenticación en rutas protegidas
-app.use('/api', routes);
-
-// Usar las rutas de mensajes
-app.use('/api/messages', messageRoutes);
+app.use('/api', routes); // Usar las rutas desde ruta.js
 
 // Ruta principal para servir el frontend
 app.get('*', (req, res) => {
