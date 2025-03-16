@@ -1,5 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const { updateConversacion } = require('../controllers/ConversacionController'); // Importar el controlador
+
+// Asegúrate de que updateConversacion está correctamente exportado e importado
+router.post('/conversacion', async (req, res) => {
+    try {
+        const { conversacionId, ultimoMensajeId } = req.body;
+        await updateConversacion(conversacionId, ultimoMensajeId);
+        res.status(200).send('Conversación actualizada');
+    } catch (error) {
+        res.status(500).send('Error al actualizar la conversación');
+    }
+});
+
 
 // Importar controladores
 const messageController = require('../controllers/messageController');
@@ -13,7 +26,6 @@ router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageC
 router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId); // Obtener mensajes por usuario
 
 // ---------------- Rutas para conversaciones ----------------
-router.post('/conversaciones', authenticateToken, conversacionController.createConversacion); // Crear conversación
 router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId); // Obtener conversaciones por usuario
 
 // ---------------- Rutas de salas de chat ----------------
