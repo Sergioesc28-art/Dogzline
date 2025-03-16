@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // Importar controladores
-const controllers = require('../controllers/Controllers');
 const messageController = require('../controllers/messageController');
 const conversacionController = require('../controllers/ConversacionController');
-const chatRoomController = require('../controllers/chatRoomController.js');
+const chatRoomController = require('../controllers/chatRoomController');
 const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 
 // ---------------- Rutas para mensajes ----------------
@@ -22,7 +21,7 @@ router.get('/chatrooms/user/:userId', chatRoomController.getChatRoomsByUserId);
 
 // Exportar router (solo una vez)
 module.exports = router;
-    
+
 /**
  * @swagger
  * /usuarios/listar:
