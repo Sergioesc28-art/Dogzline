@@ -1,12 +1,28 @@
 const express = require('express');
 const router = express.Router();
+
+// Importar controladores
 const controllers = require('../controllers/Controllers');
-const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 const messageController = require('../controllers/messageController');
 const conversacionController = require('../controllers/ConversacionController');
-const messageController = require('../controllers/Controllers.js'); // Ajusta según tu estructura
 const chatRoomController = require('../controllers/chatRoomController.js');
+const { authenticateToken } = require('../middleware/authenticateToken'); // Middleware de autenticación
 
+// ---------------- Rutas para mensajes ----------------
+router.post('/mensajes', authenticateToken, messageController.createMensaje);
+router.get('/mensajes/conversacion/:conversacionId', authenticateToken, messageController.getMensajesByConversacionId);
+router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
+
+// ---------------- Rutas para conversaciones ----------------
+router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);
+router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
+
+// ---------------- Rutas de salas de chat ----------------
+router.get('/chatrooms/user/:userId', chatRoomController.getChatRoomsByUserId);
+
+// Exportar router (solo una vez)
+module.exports = router;
+    
 /**
  * @swagger
  * /usuarios/listar:
@@ -873,30 +889,3 @@ router.put('/matchs/:id', authenticateToken, controllers.updateMatch);
 // Ruta para dar like a una mascota
 router.post('/api/likes', authenticateToken, controllers.darLike);
 
-//---------Rutas para mensajes---------
-router.post('/mensajes', authenticateToken, controllers.createMensaje);
-router.get('/mensajes/conversacion/:conversacionId', authenticateToken, controllers.getMensajesByConversacionId);
-router.get('/mensajes/usuario/:userId', authenticateToken, messageController.getMensajesByUserId);
-
-
-// Rutas para Conversaciones
-router.post('/conversaciones', authenticateToken, conversacionController.createConversacion);
-router.get('/conversaciones/usuario/:userId', authenticateToken, conversacionController.getConversacionesByUserId);
-module.exports = router;
-
-router.post('/', conversacionController.createConversacion);
-router.get('/user/:userId', conversacionController.getConversacionesByUserId);
-
-
-const messageController = require('../controllers/Controllers.js'); // Ajusta según tu estructura
-const chatRoomController = require('../controllers/chatRoomController.js');
-
-// Rutas de mensajes
-router.post('/messages', messageController.createMensaje);
-router.get('/messages/chatroom/:conversacionId', messageController.getMensajesByConversacionId);
-
-// Rutas de salas de chat
-router.get('/chatrooms/user/:userId', chatRoomController.getChatRoomsByUserId);
-
-module.exports = router;
-module.exports = router;
